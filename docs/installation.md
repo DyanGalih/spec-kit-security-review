@@ -24,7 +24,7 @@ Use this when you want a pinned version from a tagged release.
 cd /path/to/spec-kit-project
 
 specify extension add security-review --from \
-  https://github.com/DyanGalih/spec-kit-security-review/archive/refs/tags/v1.0.0.zip
+  https://github.com/DyanGalih/spec-kit-security-review/archive/refs/tags/v1.1.0.zip
 ```
 
 ## Install a Local Checkout for Development
@@ -105,7 +105,7 @@ Reinstall from the project root:
 cd /path/to/spec-kit-project
 
 specify extension add security-review --from \
-  https://github.com/DyanGalih/spec-kit-security-review/archive/refs/tags/v1.0.0.zip
+  https://github.com/DyanGalih/spec-kit-security-review/archive/refs/tags/v1.1.0.zip
 ```
 
 ### Command Is Not Available in the Agent

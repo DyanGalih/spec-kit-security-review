@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Spec-Kit Version](https://img.shields.io/badge/Spec--Kit-%3E%3D0.1.0-blue)](https://github.com/github/spec-kit)
-[![Version](https://img.shields.io/badge/version-1.0.0-green.svg)](https://github.com/DyanGalih/spec-kit-security-review)
+[![Version](https://img.shields.io/badge/version-1.1.0-green.svg)](https://github.com/DyanGalih/spec-kit-security-review)
 
 ## Overview
 
@@ -52,7 +52,7 @@ Run installation from a Spec-Kit project directory.
 cd /path/to/spec-kit-project
 
 specify extension add security-review --from \
-  https://github.com/DyanGalih/spec-kit-security-review/archive/refs/tags/v1.0.0.zip
+  https://github.com/DyanGalih/spec-kit-security-review/archive/refs/tags/v1.1.0.zip
 ```
 
 ### Install a Local Checkout for Development
@@ -119,6 +119,41 @@ Review only the diff between a feature branch and a base branch — ideal as a p
 All three commands produce a structured Markdown report with findings, severity, remediation guidance, and Spec-Kit-ready follow-up tasks.
 
 Detailed examples are in [docs/usage.md](docs/usage.md) and [examples/example-output.md](examples/example-output.md).
+
+## Release Checklist
+
+Use this checklist before creating a new Git tag to keep release metadata consistent.
+
+1. Update `extension.version` in `extension.yml`.
+2. Update `README.md` badge and install URL.
+3. Update `docs/installation.md` install URLs.
+4. Update `docs/usage.md` reinstall URL (if present).
+5. Update `examples/example-output.md` footer version (if present).
+6. Add a new section in `CHANGELOG.md` for the target version and date.
+7. Verify there are no stale version strings:
+3. Add a new section in `CHANGELOG.md` for the target version and date.
+4. Verify there are no stale version strings:
+
+```bash
+grep -RIn "version: 'OLD_VERSION'\|vOLD_VERSION.zip\|version-OLD_VERSION\|Extension vOLD_VERSION" .
+```
+
+8. Commit and tag the release:
+
+```bash
+git add extension.yml README.md CHANGELOG.md docs/installation.md docs/usage.md examples/example-output.md
+git commit -m "release: vX.Y.Z"
+git tag vX.Y.Z
+git push origin main --tags
+```
+
+9. Validate install from tag in a Spec-Kit project:
+
+```bash
+specify extension add security-review --from \
+  https://github.com/DyanGalih/spec-kit-security-review/archive/refs/tags/vX.Y.Z.zip
+specify extension list
+```
 
 ## Example Output
 

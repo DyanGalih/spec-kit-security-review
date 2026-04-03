@@ -140,7 +140,7 @@ If needed, reinstall from your Spec-Kit project:
 
 ```bash
 specify extension add security-review --from \
-  https://github.com/DyanGalih/spec-kit-security-review/archive/refs/tags/v1.0.0.zip
+  https://github.com/DyanGalih/spec-kit-security-review/archive/refs/tags/v1.1.0.zip
 ```
 
 ### Review Is Too Noisy

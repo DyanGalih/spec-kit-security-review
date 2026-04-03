@@ -14,6 +14,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Compliance mapping (SOC2, ISO 27001, HIPAA)
 - Multi-language support expansion
 
+## [1.1.0] - 2026-04-03
+
+### Added
+
+- `/speckit.security-review.staged` command for reviewing staged changes only
+- `/speckit.security-review.branch` command for reviewing branch diffs against a base branch
+
+### Updated
+
+- Extension manifest version to `1.1.0`
+- Installation examples to reference the `v1.1.0` release archive
+
 ## [1.0.0] - 2026-04-02
 
 ### Added
@@ -65,6 +77,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 | Version | Release Date | Status |
 | ------- | ------------ | ------ |
+| 1.1.0   | 2026-04-03   | Stable |
 | 1.0.0   | 2026-04-02   | Stable |
 
 ---
