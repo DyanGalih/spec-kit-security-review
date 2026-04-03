@@ -1,0 +1,23 @@
+schema_version: '1.0'
+extension:
+  id: 'security-review'
+  name: 'Security Review'
+  version: '1.0.0'
+  description: 'Comprehensive security audit of codebases using AI-powered DevSecOps analysis'
+  author: 'Spec-Kit Security Team'
+  repository: 'https://github.com/DyanGalih/spec-kit-security-review'
+  license: 'MIT'
+  homepage: 'https://github.com/DyanGalih/spec-kit-security-review'
+requires:
+  speckit_version: '>=0.1.0'
+provides:
+  commands:
+    - name: 'speckit.security-review.audit'
+      file: 'prompts/security-review.prompt.md'
+      description: 'Perform comprehensive security audit of the codebase'
+tags:
+  - 'security'
+  - 'devsecops'
+  - 'audit'
+  - 'owasp'
+  - 'compliance'
