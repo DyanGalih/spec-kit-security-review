@@ -21,8 +21,10 @@ The command reviews application code, configuration, dependencies, and infrastru
 Spec-Kit uses the `specify` CLI to install and manage extensions. Once installed, the extension registers a slash command for your agent.
 
 ```text
-specify extension add ...      # install/manage the extension
-/speckit.security-review.audit       # run the command in your agent
+specify extension add ...              # install/manage the extension
+/speckit.security-review.audit         # full codebase security review
+/speckit.security-review.staged        # review staged changes only
+/speckit.security-review.branch <br>   # review a branch vs base branch
 ```
 
 ### Workflow Integration
@@ -96,7 +98,25 @@ The command file accepts free-form user input via `$ARGUMENTS`, so you can narro
 /speckit.security-review.audit prioritize OWASP Top 10 and dependency risk
 ```
 
-Running the command produces a structured Markdown report with findings, severity, remediation guidance, and Spec-Kit-ready follow-up tasks.
+### Staged Changes Review
+
+Review only files staged with `git add` — ideal as a pre-commit check.
+
+```text
+/speckit.security-review.staged
+/speckit.security-review.staged focus on secrets and injection
+```
+
+### Branch Changes Review
+
+Review only the diff between a feature branch and a base branch — ideal as a pre-merge check.
+
+```text
+/speckit.security-review.branch feature/payment-gateway
+/speckit.security-review.branch feature/payment-gateway develop
+```
+
+All three commands produce a structured Markdown report with findings, severity, remediation guidance, and Spec-Kit-ready follow-up tasks.
 
 Detailed examples are in [docs/usage.md](docs/usage.md) and [examples/example-output.md](examples/example-output.md).
 
@@ -166,7 +186,9 @@ Running `/speckit.security-review.audit` produces a report like this:
 ├── extension.yml
 ├── config-template.yml
 ├── prompts/
-│   └── security-review.prompt.md
+│   ├── security-review.prompt.md
+│   ├── security-review-staged.prompt.md
+│   └── security-review-branch.prompt.md
 ├── docs/
 ├── examples/
 └── assets/

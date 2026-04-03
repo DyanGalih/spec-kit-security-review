@@ -82,6 +82,48 @@ The report is intended to feed back into your normal Spec-Kit workflow.
 /speckit.security-review.audit check release readiness with emphasis on exposed secrets, dependency risk, and missing controls
 ```
 
+## Targeted Reviews
+
+Use these commands when you want to review only changes, not the entire codebase.
+
+### Staged Changes Review
+
+Review only the files you have staged with `git add`, before you commit.
+
+```text
+/speckit.security-review.staged
+```
+
+With additional focus:
+
+```text
+/speckit.security-review.staged focus on secrets and injection risks
+```
+
+If nothing is staged, the command will tell you and stop. This is the fastest way to catch issues before a commit.
+
+### Branch Changes Review
+
+Review only the changes introduced on a branch compared to a base branch.
+
+```text
+/speckit.security-review.branch feature/payment-gateway
+```
+
+Specify a custom base branch (defaults to `main` if omitted):
+
+```text
+/speckit.security-review.branch feature/payment-gateway develop
+```
+
+With additional focus:
+
+```text
+/speckit.security-review.branch feature/auth main focus on authentication and session handling
+```
+
+This is ideal for pre-merge security checks in code review or CI workflows.
+
 ## Troubleshooting
 
 ### Command Not Found
@@ -90,7 +132,7 @@ Verify the extension is installed and registered:
 
 ```bash
 specify extension list
-ls .claude/commands/speckit.security-review.audit.*
+ls .claude/commands/speckit.security-review.*
 cat .specify/extensions/.registry
 ```
 
