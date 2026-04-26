@@ -304,10 +304,18 @@ Running `/speckit.security-review.audit` produces a report like this:
 ├── config-template.yml
 ├── prompts/
 │   ├── security-review.prompt.md
+│   ├── security-review-plan.prompt.md
 │   ├── security-review-staged.prompt.md
-│   └── security-review-branch.prompt.md
+│   ├── security-review-branch.prompt.md
+│   ├── security-review-tasks.prompt.md
+│   ├── security-review-followup.prompt.md
+│   └── security-review-apply.prompt.md
 ├── docs/
+│   ├── installation.md
+│   ├── usage.md
+│   └── design.md
 ├── examples/
+│   └── example-output.md
 └── assets/
 ```
 
