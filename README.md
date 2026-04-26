@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Spec-Kit Version](https://img.shields.io/badge/Spec--Kit-%3E%3D0.1.0-blue)](https://github.com/github/spec-kit)
-[![Version](https://img.shields.io/badge/version-1.2.0-green.svg)](https://github.com/DyanGalih/spec-kit-security-review)
+[![Version](https://img.shields.io/badge/version-1.3.0-green.svg)](https://github.com/DyanGalih/spec-kit-security-review)
 
 ## Overview
 
@@ -10,7 +10,7 @@ The Security Review extension adds security review commands to a Spec-Kit projec
 
 It is designed for secure-by-design development: use the full-project audit to re-review an implementation against the project memory hub and design notes, and use the scoped commands to review staged changes or branch, pull request, or merge request diffs.
 
-If you also install [spec-kit-memory-hub](https://github.com/DyanGalih/spec-kit-memory-hub), the audit, plan, task, and follow-up prompts can use `docs/memory/`, `specs/<feature>/memory.md`, `specs/<feature>/memory-synthesis.md`, and `.github/copilot-instructions.md` as additional design context.
+If you also install [spec-kit-memory-hub](https://github.com/DyanGalih/spec-kit-memory-hub), the audit, plan, task, follow-up, and apply prompts can use `docs/memory/`, `specs/<feature>/memory.md`, `specs/<feature>/memory-synthesis.md`, and `.github/copilot-instructions.md` as additional design context.
 
 If your Spec-Kit catalog includes the community extension, you can install it directly with `specify extension add security-review`.
 
@@ -22,6 +22,7 @@ Command split:
 - `/speckit.security-review.plan` reviews the implementation plan and design artifacts
 - `/speckit.security-review.tasks` reviews the generated task list and sequencing
 - `/speckit.security-review.followup` turns findings into remediation tasks or technical debt
+- `/speckit.security-review.apply` applies approved follow-up items into `tasks.md` and, when needed, `plan.md`
 
 The command reviews application code, configuration, dependencies, and infrastructure files to surface:
 
@@ -33,7 +34,7 @@ The command reviews application code, configuration, dependencies, and infrastru
 
 ## How It Fits Spec-Kit
 
-Spec-Kit uses the `specify` CLI to install and manage extensions. Once installed, this extension registers full-project, staged, branch, plan, task, and follow-up security review commands for your agent.
+Spec-Kit uses the `specify` CLI to install and manage extensions. Once installed, this extension registers full-project, staged, branch, plan, task, follow-up, and apply security review commands for your agent.
 
 ```text
 specify extension add ...              # install/manage the extension
@@ -43,6 +44,7 @@ specify extension add ...              # install/manage the extension
 /speckit.security-review.plan          # plan/security review
 /speckit.security-review.tasks         # task/security review
 /speckit.security-review.followup      # finding follow-up planning
+/speckit.security-review.apply         # apply approved follow-up items
 ```
 
 ### Workflow Integration
@@ -60,6 +62,7 @@ specify extension add ...              # install/manage the extension
 │  /speckit.implement             → Implementation Phase      │
 │  /speckit.security-review.audit → Security Review           │
 │  /speckit.security-review.followup → Follow-Up Planning     │
+│  /speckit.security-review.apply    → Follow-Up Apply       │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -81,7 +84,7 @@ If you want a pinned release instead, install from the release archive:
 
 ```bash
 specify extension add security-review --from \
-  https://github.com/DyanGalih/spec-kit-security-review/archive/refs/tags/v1.2.0.zip
+  https://github.com/DyanGalih/spec-kit-security-review/archive/refs/tags/v1.3.0.zip
 ```
 
 ### Install a Local Checkout for Development
@@ -186,7 +189,18 @@ Use this after `/speckit.security-review.audit`, `/speckit.security-review.stage
 Use it when you want to defer an issue as technical debt with a clear revisit trigger, or when you want the command to check whether an incomplete finding is already covered by an existing task.
 The follow-up output is backlog-ready and includes source finding references so incomplete security work can be tracked cleanly.
 
-The review commands produce structured Markdown reports, and the follow-up command turns those findings into remediation tasks or technical debt.
+### Apply Follow-Ups
+
+Write approved security follow-up items into the local Spec-Kit planning artifacts.
+
+```text
+/speckit.security-review.apply
+```
+
+Use this after `/speckit.security-review.followup` when you want the backlog updated in-place instead of keeping the follow-up plan as a separate report.
+This command is opt-in and keeps the Spec-Kit flow intact by changing only `tasks.md` and, when necessary, `plan.md`.
+
+The review commands produce structured Markdown reports, the follow-up command turns those findings into remediation tasks or technical debt, and the apply command writes approved items back into the planning artifacts.
 
 Detailed examples are in [docs/usage.md](docs/usage.md) and [examples/example-output.md](examples/example-output.md).
 

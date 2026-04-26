@@ -8,6 +8,7 @@ This guide follows the Spec-Kit extension development workflow from the upstream
 - `/speckit.security-review.plan` reviews the implementation plan and design artifacts
 - `/speckit.security-review.tasks` reviews the generated task list and sequencing
 - `/speckit.security-review.followup` turns findings into remediation tasks or technical debt
+- `/speckit.security-review.apply` applies approved security follow-ups into the local Spec-Kit planning artifacts
 
 ## Prerequisites
 
@@ -41,7 +42,7 @@ Use this when you want a pinned version from a tagged release.
 cd /path/to/spec-kit-project
 
 specify extension add security-review --from \
-  https://github.com/DyanGalih/spec-kit-security-review/archive/refs/tags/v1.2.0.zip
+  https://github.com/DyanGalih/spec-kit-security-review/archive/refs/tags/v1.3.0.zip
 ```
 
 ## Install a Local Checkout for Development
@@ -91,6 +92,7 @@ If you only want to review staged changes or a branch, pull request, or merge re
 
 If you want a secure-by-design planning flow, run `/speckit.security-review.plan` after `/speckit.plan`, `/speckit.security-review.tasks` after `/speckit.tasks`, and `/speckit.analyze` before `/speckit.implement` when you want the upstream Spec-Kit cross-artifact check.
 After a review run, use `/speckit.security-review.followup` to turn findings into tasks or technical debt items, especially when you want to carry incomplete findings into the next implementation cycle.
+If you want those approved items written back into the project, use `/speckit.security-review.apply` afterward.
 
 ## Optional Project Review Template
 

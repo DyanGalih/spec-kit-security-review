@@ -8,6 +8,7 @@ This extension is used as a Spec-Kit slash command set. Install it with the `spe
 - `/speckit.security-review.plan` for the implementation plan and design artifacts
 - `/speckit.security-review.tasks` for the generated task list and sequencing
 - `/speckit.security-review.followup` for remediation planning or technical-debt capture
+- `/speckit.security-review.apply` for applying approved follow-up items to the backlog
 
 ## Basic Usage
 
@@ -75,6 +76,7 @@ The report is intended to feed back into your normal Spec-Kit workflow.
 │  7. /speckit.implement            → Implement changes          │
 │  8. /speckit.security-review.audit → Security review          │
 │  9. /speckit.security-review.followup → Follow-up planning    │
+│ 10. /speckit.security-review.apply    → Follow-up apply       │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -181,6 +183,16 @@ Turn findings into concrete remediation tasks or technical debt.
 Use this after a review command when you want the findings converted into follow-up tasks or deferred technical-debt items.
 It can also check whether an incomplete security finding is already represented in the existing backlog.
 The output is backlog-ready, with source finding references so unfinished work can be tracked across implementation cycles.
+
+### Apply Follow-Ups
+
+Apply approved security follow-up items to the local Spec-Kit planning artifacts.
+
+```text
+/speckit.security-review.apply
+```
+
+Use this when you want the backlog updated in-place after a follow-up review, but still want to keep the Spec-Kit workflow centered on `plan.md`, `tasks.md`, and review artifacts rather than introducing a custom implementation path.
 
 ## Troubleshooting
 

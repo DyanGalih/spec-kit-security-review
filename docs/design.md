@@ -10,9 +10,9 @@ Core model:
 
 - `specify` installs and manages the extension
 - `extension.yml` declares metadata and command registration
-- `prompts/security-review.prompt.md` is the source command file in this repository
+- `prompts/` contains the source command files in this repository
 - Installation copies that prompt into the project-local command registry under `.claude/commands/`
-- The agent runs the review commands as `/speckit.security-review.audit`, `/speckit.security-review.staged`, `/speckit.security-review.branch`, `/speckit.security-review.plan`, `/speckit.security-review.tasks`, and `/speckit.security-review.followup`
+- The agent runs the review commands as `/speckit.security-review.audit`, `/speckit.security-review.staged`, `/speckit.security-review.branch`, `/speckit.security-review.plan`, `/speckit.security-review.tasks`, `/speckit.security-review.followup`, and `/speckit.security-review.apply`
 - Plan and task review commands fit around the Spec-Kit planning flow and help validate secure-by-design decisions before implementation
 - Repository-native memory artifacts such as `docs/memory/`, `specs/<feature>/memory.md`, `specs/<feature>/memory-synthesis.md`, and `.github/copilot-instructions.md` provide secure-by-design context when present
 
@@ -37,7 +37,7 @@ The upstream Extension Development Guide establishes four important conventions 
 │   .specify/extensions/                                       │
 │            │                                                 │
 │            ▼                                                 │
-│   prompts/security-review.prompt.md (source)                 │
+│   prompts/*.prompt.md (source command files)                │
 │            │                                                 │
 │            ▼                                                 │
 │   installed .claude/commands/speckit.security-review.audit.md │
@@ -50,7 +50,7 @@ The upstream Extension Development Guide establishes four important conventions 
 └──────────────────────────────────────────────────────────────┘
 ```
 
-The same install-and-register pattern applies to the staged, branch, plan, task, and follow-up review commands.
+The same install-and-register pattern applies to the staged, branch, plan, task, follow-up, and apply commands.
 
 The upstream Spec-Kit workflow documented at speckit.org centers on `/plan`, `/tasks`, `/analyze`, and `/implement`. This extension layers security review commands around that documented flow rather than replacing it.
 The official lifecycle ends at `/implement`; there are no `test` or `deploy` slash commands in the documented core flow.
@@ -67,7 +67,8 @@ security-review-extension/
 │   ├── security-review-staged.prompt.md
 │   ├── security-review-branch.prompt.md
 │   ├── security-review-tasks.prompt.md
-│   └── security-review-followup.prompt.md
+│   ├── security-review-followup.prompt.md
+│   └── security-review-apply.prompt.md
 ├── docs/
 │   ├── installation.md
 │   ├── usage.md
@@ -99,7 +100,7 @@ The command file follows the guide's command-file format:
 This lets the extension stay prompt-driven while still supporting targeted reviews such as focusing on authentication, secrets, or specific directories.
 It also lets the full-project audit re-read project memory hub artifacts before evaluating the implementation.
 
-The plan review command uses the same memory hub context to review `plan.md` and supporting design artifacts. After `/speckit.tasks` generates the task list, the task review command checks whether the sequencing still preserves the secure-by-design intent. After a security review, the follow-up command can turn findings into concrete tasks or technical debt while checking whether incomplete issues are already tracked, and it emits backlog-ready task records with source finding references.
+The plan review command uses the same memory hub context to review `plan.md` and supporting design artifacts. After `/speckit.tasks` generates the task list, the task review command checks whether the sequencing still preserves the secure-by-design intent. After a security review, the follow-up command can turn findings into concrete tasks or technical debt while checking whether incomplete issues are already tracked, and it emits backlog-ready task records with source finding references. The apply command is the explicit opt-in step that writes approved follow-up items back into `tasks.md` and, when necessary, `plan.md`.
 
 ## Security Coverage Model
 
