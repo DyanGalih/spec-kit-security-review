@@ -13,6 +13,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Support for custom security rules
 - Compliance mapping (SOC2, ISO 27001, HIPAA)
 - Multi-language support expansion
+- Memory-hub-aware review guidance for teams that standardize additional project memory
+
+## [1.2.0] - 2026-04-26
+
+### Added
+
+- `/speckit.security-review.plan` command for reviewing plan artifacts and design docs
+- `/speckit.security-review.tasks` command for reviewing task artifacts and sequencing
+- `/speckit.security-review.followup` command for turning findings into remediation tasks or technical debt
+- Secure-by-design review guidance tied to Spec-Kit memory-hub context
+- Branch, pull request, and merge request review wording across git platforms
+- Direct community-catalog install guidance with `specify extension add security-review`
+
+### Updated
+
+- Extension manifest version to `1.2.0`
+- Installation examples to reference the `v1.2.0` release archive
+- Documentation to reflect the direct catalog install path
 
 ## [1.1.0] - 2026-04-03
 

@@ -1,6 +1,13 @@
 # Usage Guide
 
-This extension is used as a Spec-Kit slash command. Install it with the `specify` CLI, then run `/speckit.security-review.audit` inside your agent session.
+This extension is used as a Spec-Kit slash command set. Install it with the `specify` CLI, then choose the command that matches the scope you want:
+
+- `/speckit.security-review.audit` for the full project
+- `/speckit.security-review.staged` for staged changes only
+- `/speckit.security-review.branch` for a branch, pull request, or merge request diff
+- `/speckit.security-review.plan` for the implementation plan and design artifacts
+- `/speckit.security-review.tasks` for the generated task list and sequencing
+- `/speckit.security-review.followup` for remediation planning or technical-debt capture
 
 ## Basic Usage
 
@@ -12,6 +19,11 @@ From your Spec-Kit project, open your agent and run:
 
 That triggers a full review of the current project context and produces a security report with findings, remediation guidance, and follow-up tasks.
 
+Use this when you want the whole repository reviewed rather than only a staged diff or branch diff.
+It is the best fit for secure-by-design re-reviews when you want the implementation checked against the project memory hub, design notes, and Copilot instructions.
+If the project also uses [spec-kit-memory-hub](https://github.com/DyanGalih/spec-kit-memory-hub), the command can use those repo-native memory artifacts as extra context.
+Use it after `/speckit.plan` and `/speckit.tasks` when you want a code-level re-review of the implemented design.
+
 ## Scoping the Review
 
 The command accepts free-form user input through `$ARGUMENTS`. Use plain language to steer the review rather than CLI flags.
@@ -22,7 +34,7 @@ Examples:
 /speckit.security-review.audit focus on authentication and authorization flows
 /speckit.security-review.audit review only the api, worker, and infra directories
 /speckit.security-review.audit prioritize OWASP Top 10, secrets exposure, and dependency risk
-/speckit.security-review.audit use speckit-security.yml as the team review brief
+/speckit.security-review.audit use the settings from speckit-security.yml as the team review brief
 ```
 
 ## What the Report Contains
@@ -47,20 +59,26 @@ The report is intended to feed back into your normal Spec-Kit workflow.
 
 - Use `/speckit.plan` to organize remediation work.
 - Use `/speckit.implement` to apply fixes.
+- Use `/speckit.security-review.followup` to convert findings into tasks or technical debt.
 - Re-run `/speckit.security-review.audit` after changes to confirm the risk was reduced.
 
 ## Workflow Integration
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│  1. /speckit.requirements    → Define requirements         │
-│  2. /speckit.plan            → Plan implementation         │
-│  3. /speckit.implement       → Ship changes                │
-│  4. /speckit.security-review.audit → Audit security posture      │
-│  5. /speckit.test            → Validate fixes              │
-│  6. /speckit.deploy          → Release with confidence     │
+│  1. /speckit.requirements         → Define requirements      │
+│  2. /speckit.plan                 → Plan implementation       │
+│  3. /speckit.security-review.plan → Plan review               │
+│  4. /speckit.tasks                → Generate tasks            │
+│  5. /speckit.security-review.tasks → Task review               │
+│  6. /speckit.analyze              → Cross-artifact analysis    │
+│  7. /speckit.implement            → Implement changes          │
+│  8. /speckit.security-review.audit → Security review          │
+│  9. /speckit.security-review.followup → Follow-up planning    │
 └─────────────────────────────────────────────────────────────┘
 ```
+
+The official Spec-Kit lifecycle ends at `/speckit.implement`; this extension adds security review and follow-up steps around that flow rather than introducing `test` or `deploy` commands.
 
 ## Recommended Review Patterns
 
@@ -102,7 +120,9 @@ With additional focus:
 
 If nothing is staged, the command will tell you and stop. This is the fastest way to catch issues before a commit.
 
-### Branch Changes Review
+Use this when you want the review to stay limited to the staged diff.
+
+### Branch / PR Review
 
 Review only the changes introduced on a branch compared to a base branch.
 
@@ -124,6 +144,44 @@ With additional focus:
 
 This is ideal for pre-merge security checks in code review or CI workflows.
 
+Use this when you want the review to focus on differences between two branches instead of the full project.
+It also fits a branch, pull request, or merge request diff.
+
+### Plan Review
+
+Review the implementation plan and related design artifacts before implementation begins.
+
+```text
+/speckit.security-review.plan
+```
+
+Use this right after `/speckit.plan` to verify secure-by-design coverage before implementation starts.
+After `/speckit.tasks` has generated the task list, run `/speckit.security-review.tasks` to verify security coverage, task ordering, and implementation checkpoints.
+After a review, run `/speckit.security-review.followup` to turn the findings into remediation tasks or technical-debt items.
+
+### Task Review
+
+Review the generated task list and sequencing before implementation begins.
+
+```text
+/speckit.security-review.tasks
+```
+
+Use this right after `/speckit.tasks` to verify security coverage, task ordering, and implementation checkpoints.
+This command is for sequencing and coverage only; it does not rewrite the backlog.
+
+### Follow-Up Planning
+
+Turn findings into concrete remediation tasks or technical debt.
+
+```text
+/speckit.security-review.followup
+```
+
+Use this after a review command when you want the findings converted into follow-up tasks or deferred technical-debt items.
+It can also check whether an incomplete security finding is already represented in the existing backlog.
+The output is backlog-ready, with source finding references so unfinished work can be tracked across implementation cycles.
+
 ## Troubleshooting
 
 ### Command Not Found
@@ -139,8 +197,7 @@ cat .specify/extensions/.registry
 If needed, reinstall from your Spec-Kit project:
 
 ```bash
-specify extension add security-review --from \
-  https://github.com/DyanGalih/spec-kit-security-review/archive/refs/tags/v1.1.0.zip
+specify extension add security-review
 ```
 
 ### Review Is Too Noisy

@@ -2,7 +2,7 @@
 description: 'Security review of staged changes only (git diff --cached)'
 ---
 
-# Security Review — Staged Changes
+# Security Review — Staged Changes Only
 
 ## User Input
 
@@ -11,6 +11,8 @@ $ARGUMENTS
 ## Objective
 
 Review **only the code that is currently staged for commit** — the output of `git diff --cached`. Do not review the rest of the codebase. Produce targeted security findings with severity, location, and remediation guidance.
+
+If the project has repository-native memory artifacts, use them as context for interpreting intent, but keep the review strictly limited to the staged diff.
 
 ## Steps
 

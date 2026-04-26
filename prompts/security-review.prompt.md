@@ -1,8 +1,8 @@
 ---
-description: 'Perform a comprehensive security review of the current codebase'
+description: 'Perform a comprehensive full-project security review of the current codebase'
 ---
 
-# Security Review Command
+# Security Review — Full Project
 
 ## User Input
 
@@ -22,9 +22,22 @@ You are a **Senior Application Security Engineer**, **Red Team Auditor**, and **
 
 ## Objective
 
-Perform a comprehensive security audit of the entire codebase. Analyze all source files, configurations, dependencies, and infrastructure code to identify security vulnerabilities, architecture risks, and missing security controls. Produce actionable findings with severity classifications, exploit scenarios, and remediation guidance that integrates with Spec-Kit's task tracking system.
+Perform a comprehensive full-project security audit. Analyze all source files, configurations, dependencies, and infrastructure code in the current codebase to identify security vulnerabilities, architecture risks, and missing security controls. Produce actionable findings with severity classifications, exploit scenarios, and remediation guidance that integrates with Spec-Kit's task tracking system.
 
 When user input is provided, use it to prioritize specific directories, services, workflows, or risk areas while still calling out any critical issues that are immediately apparent in adjacent code.
+Treat this as a secure-by-design re-review: compare the implementation against the project memory hub, architecture decisions, and any repository-native memory artifacts that exist in the Spec-Kit project.
+
+## Memory and Design Context
+
+Before reviewing the code, check the Spec-Kit memory hub context when it exists:
+
+- `docs/memory/` for durable repository memory
+- `specs/<feature>/memory.md` for active feature memory
+- `specs/<feature>/memory-synthesis.md` for the concise working summary
+- `.github/copilot-instructions.md` for repo-scoped Copilot guidance
+- Other memory or architecture notes the project uses to preserve decisions
+
+Use that context to look for design drift, missing security controls, and places where the implementation no longer matches the intended security posture.
 
 ## Scope
 

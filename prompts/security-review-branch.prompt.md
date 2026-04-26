@@ -1,8 +1,8 @@
 ---
-description: 'Security review of changes introduced on a branch compared to a base branch'
+description: 'Security review of branch changes only (git diff <base>..<target>)'
 ---
 
-# Security Review — Branch Changes
+# Security Review — Branch / PR Diff Only
 
 ## User Input
 
@@ -12,6 +12,10 @@ $ARGUMENTS
 
 Review **only the code changes introduced between a target branch and a base branch** — the output of `git diff <base>..<target>`. Do not review unchanged code in the full codebase. Produce targeted security findings with severity, location, and remediation guidance.
 
+This command is the right fit for a branch, pull request, or merge request diff.
+
+If the project has repository-native memory artifacts, use them to interpret design intent, but keep the analysis scoped to the diff.
+
 ## Steps
 
 1. Parse `$ARGUMENTS` to extract:
@@ -19,6 +23,7 @@ Review **only the code changes introduced between a target branch and a base bra
    - **base branch** — the branch to compare against (default: `main`)
    - Format: `<target>` or `<target> <base>`
    - Examples: `feature/auth` or `feature/payment main` or `feature/payment develop`
+   - If the user references a pull request or merge request, map it to the source and base branches if they are clear; otherwise ask for the branch pair or a pasted diff
    - If no target branch is provided, ask the user to specify one before continuing.
 2. Run `git diff <base>..<target>` to retrieve the branch diff.
 3. If the output is empty, stop and respond:
