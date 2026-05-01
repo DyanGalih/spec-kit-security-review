@@ -1,7 +1,9 @@
-# 🔒 Security Review Extension for Spec Kit
+# 🔒 Security Review
 
-[![Version](https://img.shields.io/badge/version-1.3.1-22c55e)](extension.yml)
-[![Spec Kit](https://img.shields.io/badge/Spec%20Kit-%3E%3D0.1.0-2563eb)](https://spec-kit.dev)
+> Continuous security governance and OWASP auditing for AI-assisted development.
+
+[![Version](https://img.shields.io/badge/version-1.3.2-22c55e)](extension.yml)
+[![Spec Kit](https://img.shields.io/badge/Spec%20Kit-compatible-2563eb)](https://spec-kit.dev)
 [![OWASP](https://img.shields.io/badge/OWASP-2025-ef4444)](https://owasp.org/Top10/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-f59e0b)](LICENSE)
 
@@ -28,15 +30,46 @@ You discover these issues in code review — or worse, in production. By then, f
 
 ## What It Actually Does
 
-| When | Command | What Happens |
+# Recommended Security Lifecycle
+
+Security Review is a **governance and audit layer** that runs at every phase of Spec Kit delivery to catch vulnerabilities before they reach production.
+
+| Milestone | Recommended Command | Phase Integration | Purpose |
+| --- | --- | --- | --- |
+| **Milestone: Design** | `security-review.plan` | After `/plan` | Review technical design for trust boundaries and insecure patterns. |
+| **Milestone: Strategy** | `security-review.tasks` | After `/tasks` | Ensure security requirements are sequenced correctly in the task list. |
+| **Milestone: Verification** | `security-review.audit` | After `/implement` | Full security audit of the final implementation and dependencies. |
+| **Milestone: Remediation** | `security-review.apply` | After findings | Inject approved security fixes into your Plan and Task artifacts. |
+
+---
+
+## How to Handle Findings
+
+Security Review generates structured reports with actionable findings. To resolve them:
+
+### 1. Evaluate the Finding
+Review the **Exploit Scenario** and **Remediation** provided in the report. Decide if the finding is a valid risk that needs fixing or an accepted project design.
+
+### 2. Plan the Follow-up
+Run `/speckit.security-review.followup`.
+The AI will guide you through each finding. You can choose to **Fix Now** (add to current tasks) or **Track as Tech Debt** (save for later).
+
+### 3. Apply the Fixes
+Run `/speckit.security-review.apply`.
+This will **automatically inject** the remediation tasks into your `plan.md` and `tasks.md`, making security part of your standard delivery flow.
+
+---
+
+## Continuous Security (Out-of-Band)
+
+These commands are ideal for pre-commit hooks or automated PR checks to ensure incremental changes remain secure.
+
+| Context | Recommended Command | Purpose |
 | --- | --- | --- |
-| After writing a **plan** | `security-review.plan` | Reviews plan for missing security requirements, trust boundaries, and safe design choices |
-| After generating **tasks** | `security-review.tasks` | Checks that security tasks exist, are sequenced correctly, and don't hide risk in later phases |
-| Before **committing** | `security-review.staged` | Reviews only staged changes — ideal as a pre-commit check |
-| Before **merging** | `security-review.branch` | Reviews a branch/PR diff against a base branch |
-| After **implementation** | `security-review.audit` | Full-project security audit covering all code, config, and dependencies |
-| To **create tasks** | `security-review.followup` | Converts findings into remediation tasks or tracked technical debt |
-| To **apply fixes** | `security-review.apply` | Writes approved security tasks into `tasks.md` and `plan.md` |
+| **Pre-Commit** | `security-review.staged` | Review only files staged with `git add`. |
+| **Pre-Merge** | `security-review.branch` | Review the diff between your branch and `main`. |
+
+---
 
 ### Key Behavior: Structured, Actionable Output
 
@@ -271,7 +304,7 @@ specify extension add security-review
 
 ```bash
 specify extension add security-review --from \
-  https://github.com/DyanGalih/spec-kit-security-review/archive/refs/tags/v1.3.1.zip
+  https://github.com/DyanGalih/spec-kit-security-review/archive/refs/tags/v1.3.2.zip
 ```
 
 ### Local Development
