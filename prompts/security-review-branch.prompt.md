@@ -19,12 +19,12 @@ If the project has repository-native memory artifacts, use them to interpret des
 ## Steps
 
 1. Parse `$ARGUMENTS` to extract:
-   - **target branch** — the branch to review (required)
-   - **base branch** — the branch to compare against (default: `main`)
+   - **target branch** — the branch to review (default: current active branch)
+   - **base branch** — the branch to compare against (default: try to detect the original source/parent branch, or fallback to `main`)
    - Format: `<target>` or `<target> <base>`
    - Examples: `feature/auth` or `feature/payment main` or `feature/payment develop`
    - If the user references a pull request or merge request, map it to the source and base branches if they are clear; otherwise ask for the branch pair or a pasted diff
-   - If no target branch is provided, ask the user to specify one before continuing.
+   - If no arguments are provided, use the current branch as the target.
 2. Run `git diff <base>..<target>` to retrieve the branch diff.
 3. If the output is empty, stop and respond:
    > "No differences found between `<base>` and `<target>`. Ensure both branches exist and the target has commits not in the base."
