@@ -2,7 +2,7 @@
 
 > Continuous security governance and OWASP auditing for AI-assisted development.
 
-[![Version](https://img.shields.io/badge/version-1.3.2-22c55e)](extension.yml)
+[![Version](https://img.shields.io/badge/version-1.3.3-22c55e)](extension.yml)
 [![Spec Kit](https://img.shields.io/badge/Spec%20Kit-compatible-2563eb)](https://spec-kit.dev)
 [![OWASP](https://img.shields.io/badge/OWASP-2025-ef4444)](https://owasp.org/Top10/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-f59e0b)](LICENSE)
@@ -67,7 +67,7 @@ These commands are ideal for pre-commit hooks or automated PR checks to ensure i
 | Context | Recommended Command | Purpose |
 | --- | --- | --- |
 | **Pre-Commit** | `security-review.staged` | Review only files staged with `git add`. |
-| **Pre-Merge** | `security-review.branch` | Review the diff between your branch and `main`. |
+| **Pre-Merge** | `security-review.branch` | Review changes introduced by your branch (auto-detects current). |
 
 ---
 
@@ -215,11 +215,12 @@ Reviews only files staged with `git add`. If nothing is staged, it tells you.
 ### Branch / PR Diff (Pre-Merge)
 
 ```text
+/speckit.security-review.branch
 /speckit.security-review.branch feature/payment-gateway
 /speckit.security-review.branch feature/payment-gateway develop
 ```
 
-Reviews only the diff between two branches. Default base is `main`.
+Reviews only the code changes introduced by a branch. By default, it detects your **current active branch** and compares it against its **original source** (main, develop, etc.). You can also specify branches explicitly if needed.
 
 ### Plan Review
 
@@ -304,7 +305,7 @@ specify extension add security-review
 
 ```bash
 specify extension add security-review --from \
-  https://github.com/DyanGalih/spec-kit-security-review/archive/refs/tags/v1.3.2.zip
+  https://github.com/DyanGalih/spec-kit-security-review/archive/refs/tags/v1.3.3.zip
 ```
 
 ### Local Development
