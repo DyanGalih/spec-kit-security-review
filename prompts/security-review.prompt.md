@@ -619,6 +619,16 @@ Use the following severity classification:
 
 ---
 
+## Security Constraint Generation
+
+During specification or planning review, you MUST emit actionable security constraints to `specs/<feature>/security-constraints.md`.
+These constraints inform Architecture Guard. Focus on:
+- Trust boundaries and isolation rules.
+- Data flow restrictions (e.g., "Pricing decisions must not trust client-provided values").
+- Authentication and authorization requirements per component.
+
+---
+
 ## Spec-Kit Integration
 
 For each finding that requires code changes, generate a Spec-Kit compatible task:
