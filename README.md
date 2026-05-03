@@ -2,7 +2,7 @@
 
 > Continuous security governance and OWASP auditing for AI-assisted development.
 
-[![Version](https://img.shields.io/badge/version-1.4.0-22c55e)](extension.yml)
+[![Version](https://img.shields.io/badge/version-1.4.1-22c55e)](extension.yml)
 [![Spec Kit](https://img.shields.io/badge/Spec%20Kit-compatible-2563eb)](https://spec-kit.dev)
 [![OWASP](https://img.shields.io/badge/OWASP-2025-ef4444)](https://owasp.org/Top10/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-f59e0b)](LICENSE)
@@ -30,16 +30,15 @@ You discover these issues in code review — or worse, in production. By then, f
 
 ## What It Actually Does
 
-## Extension Interoperability (vNext)
+## Extension Interoperability
 
 This extension acts as a cooperative citizen in the Spec Kit ecosystem by sharing context through explicit handoff artifacts in the `specs/<feature>/` directory.
 
-**The Governance Workflow:**
-1. `/specify` -> Write initial feature spec.
-2. `/speckit.memory-md.plan-with-memory` -> Emits `specs/<feature>/memory-synthesis.md` (Historical Context).
-3. `/speckit.security-review.specify` (or audit) -> Emits `specs/<feature>/security-constraints.md` (Trust Boundaries).
-4. `/speckit.architecture-guard.architecture-review` -> Validates the feature against the Constitution, Memory Synthesis, and Security Constraints. Emits `architecture-findings.md`.
-5. `/speckit.architecture-guard.refactor-generator` -> Creates an incremental `architecture-migration-plan.md` to resolve drift safely.
+**The Governed Delivery Lifecycle:**
+1. **`/specify`** -> Write initial feature spec.
+2. **`/speckit.architecture-guard.governed-plan`** -> Orchestrates memory synthesis, technical planning, and security/architecture validation.
+3. **`/speckit.architecture-guard.governed-tasks`** -> Orchestrates task generation with memory, security, and architecture refactor awareness.
+4. **`/speckit.architecture-guard.governed-implement`** -> Orchestrates implementation with memory context and post-implementation governance review.
 
 By using explicit markdown files, extensions remain decoupled, and all constraints and decisions are fully reviewable in Git.
 
@@ -318,7 +317,7 @@ specify extension add security-review
 
 ```bash
 specify extension add security-review --from \
-  https://github.com/DyanGalih/spec-kit-security-review/archive/refs/tags/v1.4.0.zip
+  https://github.com/DyanGalih/spec-kit-security-review/archive/refs/tags/v1.4.1.zip
 ```
 
 ### Local Development
