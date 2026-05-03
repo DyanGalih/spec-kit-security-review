@@ -2,7 +2,7 @@
 
 > Continuous security governance and OWASP auditing for AI-assisted development.
 
-[![Version](https://img.shields.io/badge/version-1.4.1-22c55e)](extension.yml)
+[![Version](https://img.shields.io/badge/version-1.4.2-22c55e)](extension.yml)
 [![Spec Kit](https://img.shields.io/badge/Spec%20Kit-compatible-2563eb)](https://spec-kit.dev)
 [![OWASP](https://img.shields.io/badge/OWASP-2025-ef4444)](https://owasp.org/Top10/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-f59e0b)](LICENSE)
@@ -50,7 +50,7 @@ Security Review is a **governance and audit layer** that runs at every phase of 
 | --- | --- | --- | --- |
 | **Milestone: Design** | `security-review.plan` | After `/plan` | Review technical design for trust boundaries and insecure patterns. |
 | **Milestone: Strategy** | `security-review.tasks` | After `/tasks` | Ensure security requirements are sequenced correctly in the task list. |
-| **Milestone: Verification** | `security-review.audit` | After `/implement` | Full security audit of the final implementation and dependencies. |
+| **Milestone: Verification** | `security-review.branch` | After `/implement` | Focused security review of the current changes or branch. |
 | **Milestone: Remediation** | `security-review.apply` | After findings | Inject approved security fixes into your Plan and Task artifacts. |
 
 ---
@@ -184,9 +184,9 @@ Every finding includes severity, location, OWASP category, exploit scenario, rem
    specify extension add security-review
    ```
 
-2. Run a full audit:
+2. Run a security review:
    ```text
-   /speckit.security-review.audit
+   /speckit.security-review.branch
    ```
 
 3. Turn findings into tasks:
@@ -199,7 +199,91 @@ Every finding includes severity, location, OWASP category, exploit scenario, rem
    /speckit.security-review.apply
    ```
 
-For day-to-day use, most teams use `staged` before commits and `audit` after implementation.
+For normal feature development, prefer `branch` review after implementation. Use `audit` for broader pre-release or milestone reviews.
+
+---
+
+## Choosing the Right Security Review Scope
+
+Security Review supports different review scopes depending on the development stage.
+
+Not every workflow requires a full-codebase security audit.
+
+| Command | Review Scope | Recommended Usage |
+| --- | --- | --- |
+| `security-review.branch` | Current branch or implementation changes | Normal feature development workflows |
+| `security-review.audit` | Full codebase or broader system audit | Pre-release reviews, milestone reviews, major architecture changes |
+
+During normal Spec Kit implementation workflows, prefer:
+
+```text
+/speckit.security-review.branch
+```
+
+because it focuses on changes introduced by the current feature or branch.
+
+Use:
+
+```text
+/speckit.security-review.audit
+```
+
+when a broader security review is needed across the entire system.
+
+## Avoid Overusing Full Audits
+
+Running full security audits during every implementation cycle may create:
+
+- noisy findings
+- duplicated review output
+- slower development workflows
+- governance fatigue
+
+Prefer scoped review during active feature development.
+
+Use full audits intentionally.
+
+## Recommended Spec Kit Workflow Usage
+
+### During Feature Development
+
+Recommended flow:
+
+```text
+/specify
+↓
+security review on specification
+↓
+/plan
+↓
+security review on plan
+↓
+/tasks
+↓
+/implement
+↓
+/speckit.security-review.branch
+```
+
+This keeps security review focused on the current feature implementation.
+
+### During Pre-Release or Major Review Cycles
+
+Recommended flow:
+
+```text
+release candidate
+↓
+/speckit.security-review.audit
+```
+
+Use `audit` for:
+
+* release reviews
+* milestone reviews
+* major architecture changes
+* systemic security analysis
+* broader trust-boundary validation
 
 ---
 
@@ -213,7 +297,7 @@ For day-to-day use, most teams use `staged` before commits and `audit` after imp
 /speckit.security-review.audit review only the api and worker directories
 ```
 
-The main command. Reviews the entire codebase.
+Performs broader or full-system security review across the codebase. Recommended for milestone reviews, release reviews, or major architecture validation.
 
 ### Staged Changes (Pre-Commit)
 
@@ -232,7 +316,29 @@ Reviews only files staged with `git add`. If nothing is staged, it tells you.
 /speckit.security-review.branch feature/payment-gateway develop
 ```
 
-Reviews only the code changes introduced by a branch. By default, it detects your **current active branch** and compares it against its **original source** (main, develop, etc.). You can also specify branches explicitly if needed.
+Reviews security risks introduced by the current branch or implementation changes. Recommended for normal feature development workflows.
+
+By default, it detects your **current active branch** and compares it against its **original source** (main, develop, etc.). You can also specify branches explicitly if needed.
+
+### Example: Feature Development
+
+```text
+/speckit.implement
+↓
+/speckit.security-review.branch
+```
+
+Reviews only the current implementation changes.
+
+### Example: Pre-Release Review
+
+```text
+release candidate
+↓
+/speckit.security-review.audit
+```
+
+Performs broader review across the codebase.
 
 ### Plan Review
 
@@ -276,7 +382,7 @@ Writes approved security tasks into `tasks.md` and `plan.md`. Supports dry-run p
 /speckit.tasks                     → Task Generation
 /speckit.security-review.tasks     → Review task sequencing
 /speckit.implement                 → Implementation Phase
-/speckit.security-review.audit     → Full security review
+/speckit.security-review.branch    → Focused security review
 /speckit.security-review.followup  → Convert findings to tasks
 /speckit.security-review.apply     → Apply approved tasks
 ```
@@ -287,6 +393,30 @@ Writes approved security tasks into `tasks.md` and `plan.md`. Supports dry-run p
 | --- | --- |
 | **Memory Hub** | Security Review reads `docs/memory/`, `specs/<feature>/memory-synthesis.md`, and `.github/copilot-instructions.md` as design context. Optional but recommended. |
 | **Architecture Guard** | Routes architecture-only findings to Architecture Guard. Security Review keeps security findings. No duplication. |
+
+---
+
+## Using Security Review with Architecture Guard
+
+When used with Architecture Guard orchestration workflows:
+
+- `governed-plan` should use plan-level security review
+- `governed-tasks` should use task-level security review
+- `governed-implement` should generally prefer:
+
+```text
+/speckit.security-review.branch
+```
+
+for implementation validation
+
+Architecture Guard orchestration should only use:
+
+```text
+/speckit.security-review.audit
+```
+
+for broader governance or release-level workflows.
 
 ---
 
@@ -317,7 +447,7 @@ specify extension add security-review
 
 ```bash
 specify extension add security-review --from \
-  https://github.com/DyanGalih/spec-kit-security-review/archive/refs/tags/v1.4.1.zip
+  https://github.com/DyanGalih/spec-kit-security-review/archive/refs/tags/v1.4.2.zip
 ```
 
 ### Local Development
