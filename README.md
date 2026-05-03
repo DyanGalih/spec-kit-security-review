@@ -318,7 +318,7 @@ specify extension add security-review
 
 ```bash
 specify extension add security-review --from \
-  https://github.com/DyanGalih/spec-kit-security-review/archive/refs/tags/v1.3.3.zip
+  https://github.com/DyanGalih/spec-kit-security-review/archive/refs/tags/v1.4.0.zip
 ```
 
 ### Local Development
