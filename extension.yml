@@ -1,41 +1,56 @@
-schema_version: '1.0'
+schema_version: "1.0"
 extension:
-  id: 'security-review'
-  name: 'Security Review'
-  version: '1.4.2'
-  description: 'Full-project secure-by-design security audits plus staged, branch/PR, plan, task, follow-up, and apply reviews'
-  author: 'Spec-Kit Security Team'
-  repository: 'https://github.com/DyanGalih/spec-kit-security-review'
-  license: 'MIT'
-  homepage: 'https://github.com/DyanGalih/spec-kit-security-review'
+  id: "security-review"
+  name: "Security Review"
+  version: "1.4.3"
+  description: "Full-project secure-by-design security audits plus staged, branch/PR, plan, task, follow-up, and apply reviews"
+  author: "Spec-Kit Security Team"
+  repository: "https://github.com/DyanGalih/spec-kit-security-review"
+  license: "MIT"
+  homepage: "https://github.com/DyanGalih/spec-kit-security-review"
 requires:
-  speckit_version: '>=0.1.0'
+  speckit_version: ">=0.1.0"
+hooks:
+  after_plan:
+    command: "speckit.security-review.plan"
+    optional: true
+    prompt: "Would you like to perform a security review on the proposed technical plan?"
+  after_tasks:
+    command: "speckit.security-review.tasks"
+    optional: true
+    prompt: "Would you like to verify that security boundaries are represented in the tasks?"
+  after_implement:
+    command: "speckit.security-review.branch"
+    optional: true
+    prompt: "Would you like to scan the new implementation for security vulnerabilities?"
 provides:
   commands:
-    - name: 'speckit.security-review.audit'
-      file: 'prompts/security-review.prompt.md'
-      description: 'Performs broader or full-system security review across the codebase. Recommended for milestone reviews, release reviews, or major architecture validation.'
-    - name: 'speckit.security-review.staged'
-      file: 'prompts/security-review-staged.prompt.md'
-      description: 'Security review of staged changes only (git diff --cached)'
-    - name: 'speckit.security-review.branch'
-      file: 'prompts/security-review-branch.prompt.md'
-      description: 'Reviews security risks introduced by the current branch or implementation changes. Recommended for normal feature development workflows.'
-    - name: 'speckit.security-review.plan'
-      file: 'prompts/security-review-plan.prompt.md'
-      description: 'Security review of Spec-Kit plan artifacts and supporting design docs'
-    - name: 'speckit.security-review.tasks'
-      file: 'prompts/security-review-tasks.prompt.md'
-      description: 'Security review of Spec-Kit task artifacts and implementation sequencing'
-    - name: 'speckit.security-review.followup'
-      file: 'prompts/security-review-followup.prompt.md'
-      description: 'Create remediation plans or technical-debt tasks from security review findings'
-    - name: 'speckit.security-review.apply'
-      file: 'prompts/security-review-apply.prompt.md'
-      description: 'Apply approved security follow-up items into tasks.md and plan.md'
+    - name: "speckit.security-review.audit"
+      file: "prompts/security-review.prompt.md"
+      description: "Performs broader or full-system security review across the codebase. Recommended for milestone reviews, release reviews, or major architecture validation."
+    - name: "speckit.security-review.staged"
+      file: "prompts/security-review-staged.prompt.md"
+      description: "Security review of staged changes only (git diff --cached)"
+    - name: "speckit.security-review.branch"
+      file: "prompts/security-review-branch.prompt.md"
+      description: "Reviews security risks introduced by the current branch or implementation changes. Recommended for normal feature development workflows."
+    - name: "speckit.security-review.plan"
+      file: "prompts/security-review-plan.prompt.md"
+      description: "Security review of Spec-Kit plan artifacts and supporting design docs"
+    - name: "speckit.security-review.tasks"
+      file: "prompts/security-review-tasks.prompt.md"
+      description: "Security review of Spec-Kit task artifacts and implementation sequencing"
+    - name: "speckit.security-review.followup"
+      file: "prompts/security-review-followup.prompt.md"
+      description: "Create remediation plans or technical-debt tasks from security review findings"
+    - name: "speckit.security-review.apply"
+      file: "prompts/security-review-apply.prompt.md"
+      description: "Apply approved security follow-up items into tasks.md and plan.md"
 tags:
-  - 'security'
-  - 'devsecops'
-  - 'audit'
-  - 'owasp'
-  - 'compliance'
+  - "security"
+  - "devsecops"
+  - "audit"
+  - "owasp"
+  - "compliance"
+  - "governance"
+  - "spec-kit"
