@@ -1,34 +1,29 @@
----
-description: 'Security review of branch changes only (git diff <base>..<target>)'
+scripts:
+  sh: ../../scripts/bash/detect-changed-files.sh
+  ps: ../../scripts/powershell/detect-changed-files.ps1
 ---
 
 # Security Review — Branch / PR Diff Only
 
-## User Input
+## Determine Review Scope
 
-$ARGUMENTS
+1. **Identify Aspects**: Parse "$ARGUMENTS" to identify specific security `aspects` (e.g., `auth`, `injection`, `data-leakage`, `supply-chain`) or `all`.
+2. **Identify Target & Base**:
+   - If the user provided branch names (e.g., `feature/auth main`), use them.
+   - Otherwise, you **MUST** execute the `{SCRIPT}` with `--json` to detect changed files between the feature branch and the default branch (`Mode A`).
+   - Use the `changed_files` list as the primary audit set.
 
 ## Objective
 
-Review **only the code changes introduced between a target branch and a base branch** — the output of `git diff <base>..<target>`. Do not review unchanged code in the full codebase. Produce targeted security findings with severity, location, and remediation guidance.
+Review **only the code changes introduced in the identified scope**. Do not review unchanged code in the full codebase. Produce targeted security findings with severity, location, and remediation guidance.
 
 This command is the right fit for a branch, pull request, or merge request diff.
 
-If the project has repository-native memory artifacts, use them to interpret design intent, but keep the analysis scoped to the diff.
-
 ## Steps
 
-1. Parse `$ARGUMENTS` to extract:
-   - **target branch** — the branch to review (default: current active branch)
-   - **base branch** — the branch to compare against (default: try to detect the original source/parent branch, or fallback to `main`)
-   - Format: `<target>` or `<target> <base>`
-   - Examples: `feature/auth` or `feature/payment main` or `feature/payment develop`
-   - If the user references a pull request or merge request, map it to the source and base branches if they are clear; otherwise ask for the branch pair or a pasted diff
-   - If no arguments are provided, use the current branch as the target.
-2. Run `git diff <base>..<target>` to retrieve the branch diff.
-3. If the output is empty, stop and respond:
-   > "No differences found between `<base>` and `<target>`. Ensure both branches exist and the target has commits not in the base."
-4. Analyze only the diff for security issues across these domains:
+1. **Identify Scope**: Run `{SCRIPT}` or use user-provided branch names to identify the changed files. If using branches, determine `<base>` and `<target>`.
+2. **Retrieve Diff**: Run `git diff <base>..<target>` (or run `git diff` restricted to the identified changed files) to retrieve the actual code changes.
+3. **Analyze Diff**: Analyze only the diff for security issues across these domains (focusing on requested aspects):
    - Injection vulnerabilities (SQL, NoSQL, command, template)
    - Hardcoded secrets or credentials
    - Broken access control or missing authorization checks
@@ -39,17 +34,8 @@ If the project has repository-native memory artifacts, use them to interpret des
    - Insecure data handling
    - Vulnerable or newly added dependencies
    - Supply chain risks in newly added packages
-5. For each finding, report:
-   - **Severity:** Critical / High / Medium / Low / Informational
-   - **Location:** file path and line number from the diff
-   - **OWASP Category:** 2025 code (e.g. `A05:2025-Injection`)
-   - **Description:** what the issue is and why it matters
-   - **Remediation:** specific fix with corrected code example where applicable
-   - **Spec-Kit Task:** `TASK-SEC-NNN` action item
-6. Produce an Executive Summary section with total finding counts by severity.
-7. Explicitly confirm any patterns in the diff that appear secure.
-
-When user input contains additional instructions beyond branch names (e.g. "focus on auth flows"), use them to prioritize specific concerns within the diff.
+3. **Report Findings**: For each finding, report severity, location, OWASP category, description, remediation, and Spec-Kit task.
+4. **Action Plan**: Provide a prioritized action plan for fixing findings.
 
 ## Output Format
 
