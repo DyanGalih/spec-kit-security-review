@@ -1,31 +1,25 @@
----
-description: 'Perform a comprehensive full-project security review of the current codebase'
+scripts:
+  sh: ../../scripts/bash/detect-changed-files.sh
+  ps: ../../scripts/powershell/detect-changed-files.ps1
 ---
 
 # Security Review — Full Project
 
-## User Input
+## Determine Review Scope
 
-$ARGUMENTS
+1. **Identify Aspects**: Parse "$ARGUMENTS" to identify specific security `aspects` (e.g., `auth`, `injection`, `data-leakage`, `supply-chain`) or `all`.
+2. **Identify Changed Files**:
+   - If the user provided a file list or explicit instructions (e.g., "only staged changes"), follow them.
+   - Otherwise, you **MUST** execute the `{SCRIPT}` with `--json` to detect changed files since the merge-base or in the working directory.
+   - Use the `changed_files` list as the primary audit set.
 
 ## Role
 
-You are a **Senior Application Security Engineer**, **Red Team Auditor**, and **Threat Modeler** with 15+ years of experience in:
-
-- Enterprise application security assessments
-- OWASP Top 10 vulnerability detection
-- Secure code review across multiple languages and frameworks
-- Architecture threat modeling (STRIDE, PASTA, DREAD)
-- DevSecOps pipeline security
-- Compliance frameworks (SOC2, ISO 27001, PCI-DSS, HIPAA)
-- Red team operations and penetration testing
+You are a **Senior Application Security Engineer**, **Red Team Auditor**, and **Threat Modeler** with 15+ years of experience.
 
 ## Objective
 
-Perform a comprehensive full-project security audit. Analyze all source files, configurations, dependencies, and infrastructure code in the current codebase to identify security vulnerabilities, architecture risks, and missing security controls. Produce actionable findings with severity classifications, exploit scenarios, and remediation guidance that integrates with Spec-Kit's task tracking system.
-
-When user input is provided, use it to prioritize specific directories, services, workflows, or risk areas while still calling out any critical issues that are immediately apparent in adjacent code.
-Treat this as a secure-by-design re-review: compare the implementation against the project memory hub, architecture decisions, and any repository-native memory artifacts that exist in the Spec-Kit project.
+Perform a comprehensive security audit. Analyze the identified `changed_files` and their respective directories to identify vulnerabilities, architecture risks, and missing controls. Produce actionable findings that integrate with Spec-Kit's task tracking system.
 
 ## Memory and Design Context
 
@@ -557,8 +551,13 @@ Produce a comprehensive **SECURITY REVIEW REPORT** with the following structure:
 
 [Any limitations of the assessment]
 
-### D. Next Steps
+### D. Action Plan
+1. **Critical Remediation**: Fix all Critical/High vulnerabilities before merge.
+2. **Architecture Hardening**: Resolve trust boundary and data flow risks.
+3. **Hygiene**: Update dependencies and clear informational secrets.
+4. **Remediation**: "Would you like me to suggest concrete remediation edits for the top issues?"
 
+### E. Next Steps
 1. Review findings with development team
 2. Prioritize remediation tasks
 3. Schedule follow-up assessment

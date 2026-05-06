@@ -1,25 +1,27 @@
----
-description: 'Security review of staged changes only (git diff --cached)'
+scripts:
+  sh: ../../scripts/bash/detect-changed-files.sh
+  ps: ../../scripts/powershell/detect-changed-files.ps1
 ---
 
 # Security Review — Staged Changes Only
 
-## User Input
+## Determine Review Scope
 
-$ARGUMENTS
+1. **Identify Aspects**: Parse "$ARGUMENTS" to identify specific security `aspects` (e.g., `auth`, `injection`, `secrets`) or `all`.
+2. **Identify Changed Files**:
+   - You **MUST** execute the `{SCRIPT}` with `--json` to detect changed files in the working directory (`Mode B`).
+   - Specifically focus on the `staged` (index) changes if the script provides that detail, or just the working directory set if appropriate.
+   - Use the `changed_files` list as the primary audit set.
 
 ## Objective
 
-Review **only the code that is currently staged for commit** — the output of `git diff --cached`. Do not review the rest of the codebase. Produce targeted security findings with severity, location, and remediation guidance.
-
-If the project has repository-native memory artifacts, use them as context for interpreting intent, but keep the review strictly limited to the staged diff.
+Review **only the code that is currently staged for commit** (or uncommitted work in the current scope). Do not review the rest of the codebase. Produce targeted security findings with severity, location, and remediation guidance.
 
 ## Steps
 
-1. Run `git diff --cached` to retrieve the staged diff.
-2. If the output is empty, stop and respond:
-   > "No staged changes found. Stage files with `git add` before running this command."
-3. Analyze only the staged diff for security issues across these domains:
+1. **Identify Scope**: Run `{SCRIPT}` to identify the changed files.
+2. **Retrieve Diff**: Run `git diff --cached` (or `git diff` on the identified files) to retrieve the actual code changes.
+3. **Analyze Diff**: Analyze only the staged diff for security issues across these domains (focusing on requested aspects):
    - Injection vulnerabilities (SQL, NoSQL, command, template)
    - Hardcoded secrets or credentials
    - Broken access control or missing authorization checks
@@ -30,17 +32,8 @@ If the project has repository-native memory artifacts, use them as context for i
    - Insecure data handling
    - Vulnerable or newly added dependencies
    - Supply chain risks in newly added packages
-4. For each finding, report:
-   - **Severity:** Critical / High / Medium / Low / Informational
-   - **Location:** file path and line number from the diff
-   - **OWASP Category:** 2025 code (e.g. `A05:2025-Injection`)
-   - **Description:** what the issue is and why it matters
-   - **Remediation:** specific fix with corrected code example where applicable
-   - **Spec-Kit Task:** `TASK-SEC-NNN` action item
-5. Produce an Executive Summary section with total finding counts by severity.
-6. Explicitly confirm any patterns in the diff that appear secure.
-
-When user input is provided via `$ARGUMENTS`, use it to prioritize specific concerns (e.g. "focus on secrets and injection") within the staged changes.
+3. **Report Findings**: For each finding, report severity, location, OWASP category, description, remediation, and Spec-Kit task.
+4. **Action Plan**: Provide a prioritized action plan for fixing findings.
 
 ## Output Format
 
