@@ -2,7 +2,7 @@
 
 > Continuous security governance and OWASP auditing for AI-assisted development.
 
-[![Version](https://img.shields.io/badge/version-1.4.4-22c55e)](extension.yml)
+[![Version](https://img.shields.io/badge/version-1.4.5-22c55e)](extension.yml)
 [![Spec Kit](https://img.shields.io/badge/Spec%20Kit-compatible-2563eb)](https://spec-kit.dev)
 [![OWASP](https://img.shields.io/badge/OWASP-2025-ef4444)](https://owasp.org/Top10/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-f59e0b)](LICENSE)
@@ -176,13 +176,9 @@ Every finding includes severity, location, OWASP category, exploit scenario, rem
 
 ---
 
-## Quick Start
+# Quick Start
 
-1. Install the extension:
-   ```text
-   cd /path/to/spec-kit-project
-   specify extension add security-review
-   ```
+1. See [Installation](#installation) section for all methods.
 
 2. Run a security review:
    ```text
@@ -209,18 +205,11 @@ Security Review supports different review scopes depending on the development st
 
 Not every workflow requires a full-codebase security audit.
 
-| Command | Review Scope | Recommended Usage |
-| --- | --- | --- |
-| `security-review.branch` | Current branch or implementation changes | Normal feature development workflows |
-| `security-review.audit` | Full codebase or broader system audit | Pre-release reviews, milestone reviews, major architecture changes |
-
 During normal Spec Kit implementation workflows, prefer:
 
 ```text
 /speckit.security-review.branch
 ```
-
-because it focuses on changes introduced by the current feature or branch.
 
 Use:
 
@@ -228,7 +217,13 @@ Use:
 /speckit.security-review.audit
 ```
 
-when a broader security review is needed across the entire system.
+for:
+
+* release reviews
+* milestone reviews
+* major architecture changes
+* systemic security analysis
+* broader trust-boundary validation
 
 ## Avoid Overusing Full Audits
 
@@ -287,7 +282,23 @@ Use `audit` for:
 
 ---
 
-## Commands
+# Commands
+
+## Quick Reference
+
+| Command | Phase | When To Use | Output |
+| --- | --- | --- | --- |
+| `audit` | Governance | Release reviews, milestone reviews, broader system security analysis | Full-codebase vulnerabilities with OWASP categories |
+| `branch` | Implementation Validation | After implementation, normal feature development (pre-merge) | Changes-only security review, focused findings |
+| `staged` | Pre-Commit | Pre-commit hooks, local validation before git add | Only staged files security review |
+| `plan` | Planning | After `/speckit.plan` | Security gaps in technical design |
+| `tasks` | Task Generation | After `/speckit.tasks` | Task sequencing, missing security requirements |
+| `followup` | Remediation Planning | After findings are reviewed | Convert findings to tasks or technical debt |
+| `apply` | Integration | After followup decisions | Inject security tasks into plan.md and tasks.md |
+
+---
+
+## Command Details
 
 ### Full Audit
 
@@ -374,7 +385,7 @@ Writes approved security tasks into `tasks.md` and `plan.md`. Supports dry-run p
 
 ---
 
-## Workflow Integration
+# Workflow Integration
 
 ```text
 /speckit.plan                      → Planning Phase
@@ -387,14 +398,12 @@ Writes approved security tasks into `tasks.md` and `plan.md`. Supports dry-run p
 /speckit.security-review.apply     → Apply approved tasks
 ```
 
-### With Companion Extensions
+## With Companion Extensions
 
 | Extension | Relationship |
 | --- | --- |
 | **Memory Hub** | Security Review reads `docs/memory/`, `specs/<feature>/memory-synthesis.md`, and `.github/copilot-instructions.md` as design context. Optional but recommended. |
 | **Architecture Guard** | Routes architecture-only findings to Architecture Guard. Security Review keeps security findings. No duplication. |
-
----
 
 ## Using Security Review with Architecture Guard
 
@@ -420,7 +429,17 @@ for broader governance or release-level workflows.
 
 ---
 
-## Configuration
+# Configuration
+
+### When You Need to Configure
+
+Configuration is **optional**. You only need it if:
+- Your project has custom security requirements
+- You want to exclude certain patterns or directories
+- You need to customize severity thresholds
+- You want to focus on specific OWASP categories
+
+### How to Configure
 
 Copy `config-template.yml` into your project as a team brief:
 
@@ -434,47 +453,7 @@ The template covers: exclusion patterns, focus areas, severity thresholds, outpu
 
 ---
 
-## Installation
-
-### From Extension Registry
-
-```bash
-cd /path/to/spec-kit-project
-specify extension add security-review
-```
-
-### From GitHub
-
-```bash
-specify extension add security-review --from \
-  https://github.com/DyanGalih/spec-kit-security-review/archive/refs/tags/v1.4.4.zip
-```
-
-### Local Development
-
-```bash
-specify extension add --dev /path/to/spec-kit-security-review
-```
-
-### Verify Installation
-
-```bash
-specify extension list
-ls .claude/commands/speckit.security-review.*
-```
-
-### Verification Scripts
-
-```bash
-# Smoke test the extension itself
-./scripts/test-install.sh
-```
-
-Detailed setup and troubleshooting: [docs/installation.md](docs/installation.md).
-
----
-
-## Project Structure
+# Project Structure
 
 ```text
 security-review-extension/
@@ -508,7 +487,9 @@ security-review-extension/
 
 ---
 
-## Example Output
+# Output Format
+
+## Example Report
 
 ```markdown
 # SECURITY REVIEW REPORT
@@ -539,7 +520,7 @@ Full example: [examples/example-output.md](examples/example-output.md).
 
 ---
 
-## Release Checklist
+# Release Checklist
 
 1. Update `extension.version` in `extension.yml`
 2. Update README badge and install URL
@@ -557,7 +538,9 @@ Full example: [examples/example-output.md](examples/example-output.md).
    git push origin main --tags
    ```
 
-## Non-Goals
+---
+
+# Non-Goals
 
 This extension does not:
 
@@ -568,13 +551,17 @@ This extension does not:
 - Require runtime tools or framework-specific APIs
 - Duplicate Architecture Guard findings (architecture-only issues are routed there)
 
-## Support
+---
+
+# Support
 
 - Documentation: [docs/](docs/)
 - Examples: [examples/](examples/)
 - Issues: [GitHub Issues](https://github.com/DyanGalih/spec-kit-security-review/issues)
 - Discussions: [GitHub Discussions](https://github.com/DyanGalih/spec-kit-security-review/discussions)
 
-## License
+---
+
+# License
 
 This extension is released under the [MIT License](LICENSE).
