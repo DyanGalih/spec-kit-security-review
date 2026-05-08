@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.4.9
+
+- Added explicit instructions for agents to read specification files bypassing gitignore.
+
 ## v1.5.0
 
 - Added YAML frontmatter header to all generated security review documents containing structured metadata: `document_type`, `review_type`, `assessment_date`, `overall_risk`, per-severity counts, `owasp_categories`, `cwe_ids`, and a static `field_summaries` dictionary.
