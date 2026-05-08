@@ -194,6 +194,45 @@ Apply approved security follow-up items to the local Spec-Kit planning artifacts
 
 Use this when you want the backlog updated in-place after a follow-up review, but still want to keep the Spec-Kit workflow centered on `plan.md`, `tasks.md`, and review artifacts rather than introducing a custom implementation path.
 
+### Formal Report Export
+
+Synthesizes findings into a professional **Whitebox Security Assessment Report** (Pentest Style).
+
+```text
+/speckit.security-review.export
+```
+
+Use this when you need to provide a formal report to stakeholders, clients, or compliance auditors. It produces:
+- **Executive Summary**: High-level risk assessment and business impact for stakeholders.
+- **Detailed Technical Findings**: Full exploit scenarios, CVSS scoring, and code-level remediation.
+- **Methodology**: Transparency on the whitebox approach and tools used.
+- **Strategic Roadmap**: Long-term hardening advice based on project memory and architecture.
+
+## Memory Optimization with SQLite
+
+Security Review supports an **Optimizer-Aware Flow** for projects using the `spec-kit-memory-hub` SQLite optimizer. This significantly reduces token usage and improves review accuracy by targeting only relevant security context.
+
+### Enabling the Optimizer
+
+If you have `spec-kit-memory-hub` installed, you can enable the optimized flow by setting:
+
+```yaml
+# .specify/extensions/memory-md/config.yml
+optimizer:
+  enabled: true
+```
+
+### How it Works
+
+When the optimizer is enabled, the security commands follow this automated retrieval sequence:
+
+1. **`refresh-memory`**: Syncs the local SQLite cache with your markdown files.
+2. **`search-memory`**: Performs a keyword search for security domains (vulnerabilities, authentication, etc.).
+3. **`synthesize`**: Generates a concise `memory-synthesis.md` for the current feature scope.
+4. **Targeted Read**: The agent reads only the synthesis and relevant search results.
+
+This replaces the "Markdown-Only Flow" which requires reading the entire `docs/memory/` directory.
+
 ## Troubleshooting
 
 ### Command Not Found

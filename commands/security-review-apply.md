@@ -25,7 +25,20 @@ When project memory exists, use it as design context. Compare the requested upda
 
 ## Scope
 
-Review the following artifacts when present:
+Before applying updates, check the Spec-Kit memory hub context.
+
+### Optimizer-Aware Flow
+
+When `.specify/extensions/memory-md/config.yml` has `optimizer.enabled: true` and the CLI is available:
+
+1. **Refresh Cache**: Execute `npx speckit-memory refresh-memory` to ensure the local SQLite cache is up to date.
+2. **Targeted Security Search**: Execute `npx speckit-memory search-memory "security constraints vulnerabilities authentication authorization data-leakage"` to retrieve relevant durable memory entries.
+3. **Synthesis Refresh**: Execute `npx speckit-memory synthesize --feature specs/<feature>` to update the concise working summary.
+4. **Read Synthesis**: Read `specs/<feature>/memory-synthesis.md` (or the search results) first.
+
+### Markdown-Only Flow
+
+When the optimizer is disabled or unavailable, you **MUST** read these files explicitly using your file-reading tools (absolute or relative paths). Do not rely solely on workspace search or semantic indexers, as these files are often in `.gitignore`:
 
 - latest security review findings or follow-up plan
 - `tasks.md`
@@ -35,6 +48,7 @@ Review the following artifacts when present:
 - `data-model.md`
 - `contracts/`
 - `quickstart.md`
+- `docs/memory/INDEX.md`
 - `docs/memory/`
 - `specs/<feature>/memory.md`
 - `specs/<feature>/memory-synthesis.md`

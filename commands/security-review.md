@@ -25,9 +25,23 @@ Perform a comprehensive security audit. Analyze the identified `changed_files` a
 
 ## Memory and Design Context
 
-Before reviewing the code, check the Spec-Kit memory hub context when it exists. **IMPORTANT**: You MUST read these files explicitly using your file-reading tools (absolute or relative paths). Do not rely solely on workspace search or semantic indexers, as these files are often in `.gitignore`:
+Before reviewing the code, check the Spec-Kit memory hub context.
 
-- `docs/memory/` for durable repository memory
+### Optimizer-Aware Flow
+
+When `.specify/extensions/memory-md/config.yml` has `optimizer.enabled: true` and the CLI is available:
+
+1. **Refresh Cache**: Execute `npx speckit-memory refresh-memory` to ensure the local SQLite cache is up to date.
+2. **Targeted Security Search**: Execute `npx speckit-memory search-memory "security constraints vulnerabilities authentication authorization data-leakage"` to retrieve relevant durable memory entries.
+3. **Synthesis Refresh**: If a feature scope is identified, execute `npx speckit-memory synthesize --feature specs/<feature>` to update the concise working summary.
+4. **Read Synthesis**: Read `specs/<feature>/memory-synthesis.md` (or the search results) first to understand active security constraints and historical lessons.
+
+### Markdown-Only Flow
+
+When the optimizer is disabled or unavailable, you **MUST** read these files explicitly using your file-reading tools (absolute or relative paths). Do not rely solely on workspace search or semantic indexers, as these files are often in `.gitignore`:
+
+- `docs/memory/INDEX.md` (Read this first to identify relevant source sections)
+- `docs/memory/` for durable repository memory (Read only the sections identified in the index)
 - `.specify/memory/security_constitution.md` for project-wide security rules and standards
 - `specs/<feature>/memory.md` for active feature memory
 - `specs/<feature>/memory-synthesis.md` for the concise working summary
@@ -603,14 +617,16 @@ Produce a comprehensive **SECURITY REVIEW REPORT** with the following structure:
 ### D. Action Plan
 1. **Critical Remediation**: Fix all Critical/High vulnerabilities before merge.
 2. **Architecture Hardening**: Resolve trust boundary and data flow risks.
-3. **Hygiene**: Update dependencies and clear informational secrets.
-4. **Remediation**: "Would you like me to suggest concrete remediation edits for the top issues?"
+3. **Report Findings**: For each finding, report severity, location, OWASP category, description, remediation, and Spec-Kit task.
+4. **Action Plan**: Provide a prioritized action plan for fixing findings.
+5. **Durable Memory Preservation**: If systemic vulnerabilities or reusable security patterns were identified, execute `/speckit.memory-md.capture` after providing the report to ensure these lessons are preserved in the project's durable memory.
 
 ### E. Next Steps
 1. Review findings with development team
 2. Prioritize remediation tasks
-3. Schedule follow-up assessment
-4. Integrate security checks into CI/CD
+3. **Preserve Durable Lessons**: If systemic vulnerabilities or reusable security patterns were identified, run `/speckit.memory-md.capture` to update the project's durable memory (BUGS.md, DECISIONS.md).
+4. Schedule follow-up assessment
+5. Integrate security checks into CI/CD
 
 ```
 
@@ -696,8 +712,6 @@ TASK-SEC-[NNN]: [Actionable Title]
 
 These tasks should be ready to import into Spec-Kit's task tracking system.
 
----
-
 ## Final Instructions
 
 1. Analyze the ENTIRE codebase thoroughly
@@ -708,6 +722,7 @@ These tasks should be ready to import into Spec-Kit's task tracking system.
 6. Prioritize findings by risk and exploitability
 7. Be constructive—focus on remediation, not just problems
 8. Consider the business context when assessing impact
+9. **Durable Memory Preservation**: If systemic vulnerabilities or reusable security patterns were identified, execute `/speckit.memory-md.capture` after providing the report to ensure these lessons are preserved in the project's durable memory.
 
 ## Memory Hub INDEX.md Row
 
