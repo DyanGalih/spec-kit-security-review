@@ -1,5 +1,17 @@
 # Changelog
 
+## v1.5.0
+
+- Added YAML frontmatter header to all generated security review documents containing structured metadata: `document_type`, `review_type`, `assessment_date`, `overall_risk`, per-severity counts, `owasp_categories`, `cwe_ids`, and a static `field_summaries` dictionary.
+- All 6 report-generating prompts (`audit`, `branch`, `staged`, `plan`, `tasks`, `followup`) now instruct the LLM to emit the frontmatter block before the report body and output a proposed `docs/memory/INDEX.md` routing row after the report.
+- Added `docs/field-registry.md` defining every metadata field, its type, range, indexing priority, INDEX.md row format, and future SQLite Phase 1 column mapping.
+- Added `docs/field-summaries.yml` as a machine-readable schema for all frontmatter fields.
+- Updated `examples/example-output.md` with populated frontmatter and a sample INDEX.md row.
+- Added `scripts/update-document-headers.sh` to batch-prepend frontmatter to existing review documents.
+- Updated `docs/design.md` with the Document Header Strategy and two-stage retrieval flow (INDEX.md now → SQLite Phase 1 later).
+- Updated `docs/usage.md` with field reference table, INDEX.md integration guide, and batch-update instructions.
+- Updated `README.md` Output Format section to describe the new header and memory-hub integration.
+
 ## v1.3.1
 
 - Bumped the extension version to `1.3.1`.

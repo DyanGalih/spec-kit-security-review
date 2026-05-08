@@ -242,6 +242,14 @@ security-review:
     # Default: specs/<feature>/memory-synthesis.md
     feature-memory-synthesis-path: specs/<feature>/memory-synthesis.md
 
+    # Project-wide security rules and standards
+    # Default: security_constitution.md
+    security-constitution-path: security_constitution.md
+
+    # Feature-specific security rules
+    # Default: specs/<feature>/security-constraints.md
+    security-constraints-path: specs/<feature>/security-constraints.md
+
     # Copilot instructions file maintained by the memory hub
     # Default: .github/copilot-instructions.md
     copilot-instructions-path: .github/copilot-instructions.md
@@ -249,8 +257,10 @@ security-review:
     # Additional memory or architecture notes to consider
     additional-context:
       - docs/memory/
+      - security_constitution.md
       - specs/**/memory.md
       - specs/**/memory-synthesis.md
+      - specs/**/security-constraints.md
       - .github/copilot-instructions.md
 
   # ============================================================
