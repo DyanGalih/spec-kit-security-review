@@ -16,7 +16,7 @@ When project memory exists, use it as design context. Compare the plan against t
 
 ## Scope
 
-Review the following artifacts when present:
+Review the following artifacts when present. **IMPORTANT**: You MUST read these files explicitly using your file-reading tools (absolute or relative paths). Do not rely solely on workspace search or semantic indexers, as these files are often in `.gitignore`:
 
 - `plan.md`
 - `spec.md`

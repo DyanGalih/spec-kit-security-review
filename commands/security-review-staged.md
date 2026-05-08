@@ -26,7 +26,7 @@ Review **only the code that is currently staged for commit** (or uncommitted wor
 3. **Analyze Diff**: Analyze only the staged diff for security issues across these domains (focusing on requested aspects):
    - Injection vulnerabilities (SQL, NoSQL, command, template)
    - Hardcoded secrets or credentials
-   - Compliance with `.specify/memory/security_constitution.md` and `security-constraints.md`
+   - Compliance with `.specify/memory/security_constitution.md` and `security-constraints.md`. **IMPORTANT**: You MUST read these files explicitly using your file-reading tools (absolute or relative paths). Do not rely solely on workspace search or semantic indexers, as these files are often in `.gitignore`.
    - Broken access control or missing authorization checks
    - Cryptographic failures (weak algorithms, hardcoded keys)
    - Security misconfiguration

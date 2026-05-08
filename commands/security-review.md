@@ -25,7 +25,7 @@ Perform a comprehensive security audit. Analyze the identified `changed_files` a
 
 ## Memory and Design Context
 
-Before reviewing the code, check the Spec-Kit memory hub context when it exists:
+Before reviewing the code, check the Spec-Kit memory hub context when it exists. **IMPORTANT**: You MUST read these files explicitly using your file-reading tools (absolute or relative paths). Do not rely solely on workspace search or semantic indexers, as these files are often in `.gitignore`:
 
 - `docs/memory/` for durable repository memory
 - `.specify/memory/security_constitution.md` for project-wide security rules and standards
