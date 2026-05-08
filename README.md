@@ -315,6 +315,15 @@ Security Review respects the following project governance artifacts when they ex
 | `specs/<feature>/security-constraints.md` | Feature-specific security rules generated during planning or specification. |
 | `docs/memory/` | Durable repository memory containing historical security decisions. |
 
+## Optimizer-Aware Memory Retrieval
+
+This extension integrates with [spec-kit-memory-hub](https://github.com/DyanGalih/spec-kit-memory-hub)'s local SQLite optimizer. When enabled, the extension uses the `speckit-memory` CLI to perform targeted searches across your project's durable memory rather than reading full directories.
+
+To enable this:
+1. Ensure `spec-kit-memory-hub` is installed.
+2. Set `optimizer.enabled: true` in your `.specify/extensions/memory-md/config.yml`.
+3. The security review agent will automatically switch to the **Optimizer-Aware Flow** (Refresh -> Search -> Synthesize -> Read).
+
 ---
 
 # Commands
@@ -330,6 +339,7 @@ Security Review respects the following project governance artifacts when they ex
 | `tasks` | Task Generation | After `/speckit.tasks` | Task sequencing, missing security requirements |
 | `followup` | Remediation Planning | After findings are reviewed | Convert findings to tasks or technical debt |
 | `apply` | Integration | After followup decisions | Inject security tasks into plan.md and tasks.md |
+| `export` | Reporting | For whitebox testing/compliance | Formal Executive and Technical Pentest Report |
 
 ---
 
@@ -418,6 +428,19 @@ Converts findings into remediation tasks (`Implement now`), technical debt (`Tra
 
 Writes approved security tasks into `tasks.md` and `plan.md`. Supports dry-run preview.
 
+### Formal Report Export
+
+Synthesizes multiple review artifacts into a single, professional **Whitebox Security Assessment Report**.
+
+```text
+/speckit.security-review.export
+```
+
+Use this when you need to provide a formal report to stakeholders or clients. It produces:
+- **Executive Summary**: High-level risk and business impact.
+- **Technical Findings**: Detailed exploit walk-throughs and code-level remediation.
+- **Strategic Roadmap**: Long-term security hardening advice based on project memory.
+
 ---
 
 # Workflow Integration
@@ -431,6 +454,7 @@ Writes approved security tasks into `tasks.md` and `plan.md`. Supports dry-run p
 /speckit.security-review.branch    → Focused security review
 /speckit.security-review.followup  → Convert findings to tasks
 /speckit.security-review.apply     → Apply approved tasks
+/speckit.security-review.export    → Export formal report
 ```
 
 ## With Companion Extensions
