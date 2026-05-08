@@ -44,22 +44,23 @@ assert_file_exists "$EXT_ROOT/CONTRIBUTING.md" "CONTRIBUTING.md exists at root"
 assert_file_exists "$EXT_ROOT/CHANGELOG.md" "CHANGELOG.md exists at root"
 assert_file_exists "$EXT_ROOT/config-template.yml" "config-template.yml exists at root"
 
-# --- Test: All prompt files exist ---
+# --- Test: All command files exist ---
 echo ""
-echo "Test: All prompt files exist"
+echo "Test: All command files exist"
 
-EXPECTED_PROMPTS=(
-  "security-review.prompt.md"
-  "security-review-staged.prompt.md"
-  "security-review-branch.prompt.md"
-  "security-review-plan.prompt.md"
-  "security-review-tasks.prompt.md"
-  "security-review-followup.prompt.md"
-  "security-review-apply.prompt.md"
+EXPECTED_COMMANDS=(
+  "security-review.md"
+  "security-review-staged.md"
+  "security-review-branch.md"
+  "security-review-plan.md"
+  "security-review-tasks.md"
+  "security-review-followup.md"
+  "security-review-apply.md"
+  "init.md"
 )
 
-for prompt in "${EXPECTED_PROMPTS[@]}"; do
-  assert_file_exists "$EXT_ROOT/prompts/$prompt" "prompt file: $prompt"
+for cmd in "${EXPECTED_COMMANDS[@]}"; do
+  assert_file_exists "$EXT_ROOT/commands/$cmd" "command file: $cmd"
 done
 
 # --- Test: extension.yml references resolve ---
@@ -74,32 +75,32 @@ while IFS= read -r line; do
   fi
 done < <(grep 'file:' "$EXT_ROOT/extension.yml")
 
-# --- Test: Prompts are self-contained (no external file references) ---
+# --- Test: Commands are self-contained (no external file references) ---
 echo ""
-echo "Test: Prompts are self-contained (no broken references)"
+echo "Test: Commands are self-contained (no broken references)"
 
 TESTS=$((TESTS + 1))
-if grep -rl "Use the rules from" "$EXT_ROOT/prompts/" 2>/dev/null | grep -q .; then
-  echo -e "  ${RED}✗${NC} Found prompts referencing external rule files"
+if grep -rl "Use the rules from" "$EXT_ROOT/commands/" 2>/dev/null | grep -q .; then
+  echo -e "  ${RED}✗${NC} Found commands referencing external rule files"
   FAILURES=$((FAILURES + 1))
 else
-  echo -e "  ${GREEN}✓${NC} No prompts reference external rule files"
+  echo -e "  ${GREEN}✓${NC} No commands reference external rule files"
 fi
 
-# --- Test: Each prompt has frontmatter ---
+# --- Test: Each command has frontmatter ---
 echo ""
-echo "Test: Each prompt has YAML frontmatter"
+echo "Test: Each command has YAML frontmatter"
 
-for prompt in "${EXPECTED_PROMPTS[@]}"; do
-  assert_contains "$EXT_ROOT/prompts/$prompt" "^---" "frontmatter in $prompt"
+for cmd in "${EXPECTED_COMMANDS[@]}"; do
+  assert_contains "$EXT_ROOT/commands/$cmd" "^---" "frontmatter in $cmd"
 done
 
-# --- Test: Each prompt has output format ---
+# --- Test: Each command has output format ---
 echo ""
-echo "Test: Each prompt defines output format"
+echo "Test: Each command defines output format"
 
-for prompt in "${EXPECTED_PROMPTS[@]}"; do
-  assert_contains "$EXT_ROOT/prompts/$prompt" "Output Format" "output format in $prompt"
+for cmd in "${EXPECTED_COMMANDS[@]}"; do
+  assert_contains "$EXT_ROOT/commands/$cmd" "Output Format" "output format in $cmd"
 done
 
 # --- Summary ---

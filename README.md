@@ -2,7 +2,7 @@
 
 > Continuous security governance and OWASP auditing for AI-assisted development.
 
-[![Version](https://img.shields.io/badge/version-1.4.5-22c55e)](extension.yml)
+[![Version](https://img.shields.io/badge/version-1.4.8-22c55e)](extension.yml)
 [![Spec Kit](https://img.shields.io/badge/Spec%20Kit-compatible-2563eb)](https://spec-kit.dev)
 [![OWASP](https://img.shields.io/badge/OWASP-2025-ef4444)](https://owasp.org/Top10/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-f59e0b)](LICENSE)
@@ -41,6 +41,31 @@ This extension acts as a cooperative citizen in the Spec Kit ecosystem by sharin
 4. **`/speckit.architecture-guard.governed-implement`** -> Orchestrates implementation with memory context and post-implementation governance review.
 
 By using explicit markdown files, extensions remain decoupled, and all constraints and decisions are fully reviewable in Git.
+
+---
+
+# Installation
+
+### From Registry
+
+```text
+specify extension add security-review
+```
+
+### From GitHub
+
+```text
+specify extension add security-review --from \
+  https://github.com/DyanGalih/spec-kit-security-review/archive/refs/tags/v1.4.8.zip
+```
+
+### Local Development
+
+```text
+specify extension add --dev /path/to/spec-kit-security-review
+```
+
+---
 
 # Recommended Security Lifecycle
 
@@ -280,6 +305,16 @@ Use `audit` for:
 * systemic security analysis
 * broader trust-boundary validation
 
+## Governance Artifacts
+
+Security Review respects the following project governance artifacts when they exist:
+
+| Artifact | Purpose |
+| --- | --- |
+| `security_constitution.md` | **The Source of Truth.** Repository-wide security rules, standards, and requirements that every feature must follow. |
+| `specs/<feature>/security-constraints.md` | Feature-specific security rules generated during planning or specification. |
+| `docs/memory/` | Durable repository memory containing historical security decisions. |
+
 ---
 
 # Commands
@@ -464,14 +499,15 @@ security-review-extension/
 ├── README.md
 ├── config-template.yml                ← Team brief template (not auto-read)
 ├── extension.yml                      ← Extension manifest
-├── prompts/                           ← Spec Kit command definitions (self-contained)
-│   ├── security-review.prompt.md            ← Full audit (655 lines)
-│   ├── security-review-staged.prompt.md     ← Staged changes
-│   ├── security-review-branch.prompt.md     ← Branch/PR diff
-│   ├── security-review-plan.prompt.md       ← Plan review
-│   ├── security-review-tasks.prompt.md      ← Task review
-│   ├── security-review-followup.prompt.md   ← Finding follow-up
-│   └── security-review-apply.prompt.md      ← Apply approved items
+├── commands/                          ← Spec Kit command definitions (self-contained)
+│   ├── security-review.md                   ← Full audit (655 lines)
+│   ├── security-review-staged.md            ← Staged changes
+│   ├── security-review-branch.md            ← Branch/PR diff
+│   ├── security-review-plan.md              ← Plan review
+│   ├── security-review-tasks.md             ← Task review
+│   ├── security-review-followup.md          ← Finding follow-up
+│   ├── security-review-apply.md             ← Apply approved items
+│   └── init.md                              ← Bootstrap security rules
 ├── docs/
 │   ├── design.md
 │   ├── installation.md
@@ -488,6 +524,14 @@ security-review-extension/
 ---
 
 # Output Format
+
+Generated reports include a **YAML frontmatter header** before the report body. This header contains structured metadata (risk level, finding counts, OWASP categories, and field definitions) that enables header-first processing:
+
+- An LLM reads the header and decides whether the document is relevant before loading the body
+- The header fields map directly to `docs/memory/INDEX.md` routing rows for token-efficient retrieval
+- The same fields become SQL columns when memory-hub SQLite Phase 1 is enabled — no rework needed
+
+See [docs/field-registry.md](docs/field-registry.md) for the full field schema and [docs/usage.md](docs/usage.md) for INDEX.md integration instructions.
 
 ## Example Report
 

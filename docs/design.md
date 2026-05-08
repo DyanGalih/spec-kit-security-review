@@ -10,7 +10,7 @@ Core model:
 
 - `specify` installs and manages the extension
 - `extension.yml` declares metadata and command registration
-- `prompts/` contains the source command files in this repository
+- `commands/` contains the source command files in this repository
 - Installation copies that prompt into the project-local command registry under `.claude/commands/`
 - The agent runs the review commands as `/speckit.security-review.audit`, `/speckit.security-review.staged`, `/speckit.security-review.branch`, `/speckit.security-review.plan`, `/speckit.security-review.tasks`, `/speckit.security-review.followup`, and `/speckit.security-review.apply`
 - Plan and task review commands fit around the Spec-Kit planning flow and help validate secure-by-design decisions before implementation
@@ -37,7 +37,7 @@ The upstream Extension Development Guide establishes four important conventions 
 │   .specify/extensions/                                       │
 │            │                                                 │
 │            ▼                                                 │
-│   prompts/*.prompt.md (source command files)                │
+│   commands/*.md (source command files)                      │
 │            │                                                 │
 │            ▼                                                 │
 │   installed .claude/commands/speckit.security-review.audit.md │
@@ -61,14 +61,15 @@ The official lifecycle ends at `/implement`; there are no `test` or `deploy` sla
 security-review-extension/
 ├── extension.yml
 ├── config-template.yml
-├── prompts/
-│   ├── security-review.prompt.md
-│   ├── security-review-plan.prompt.md
-│   ├── security-review-staged.prompt.md
-│   ├── security-review-branch.prompt.md
-│   ├── security-review-tasks.prompt.md
-│   ├── security-review-followup.prompt.md
-│   └── security-review-apply.prompt.md
+├── commands/
+│   ├── security-review.md
+│   ├── security-review-plan.md
+│   ├── security-review-staged.md
+│   ├── security-review-branch.md
+│   ├── security-review-tasks.md
+│   ├── security-review-followup.md
+│   ├── security-review-apply.md
+│   └── init.md
 ├── docs/
 │   ├── installation.md
 │   ├── usage.md
@@ -98,6 +99,37 @@ The command file follows the guide's command-file format:
 3. `$ARGUMENTS` passthrough so the user can supply natural-language scoping input
 
 This lets the extension stay prompt-driven while still supporting targeted reviews such as focusing on authentication, secrets, or specific directories.
+
+## Document Header Strategy
+
+Every generated security review document starts with a YAML frontmatter block. This block serves three purposes simultaneously:
+
+1. **Header-first LLM decisions**: An LLM reading the document encounters all structured metadata before the first finding. It can decide whether the document is relevant — by risk level, review type, OWASP categories, or date — without processing the report body. This reduces token usage in agentic pipelines that load multiple documents.
+
+2. **INDEX.md routing**: Each frontmatter block maps to a compact routing row in the consuming repo's `docs/memory/INDEX.md`. The row contains the same key fields in one line, allowing the LLM to filter across all security review documents using only the index — without loading any document body.
+
+3. **SQLite Phase 1 readiness**: The frontmatter fields are the exact schema that memory-hub SQLite Phase 1 will ingest as SQL columns. No rework is required when the optimizer is enabled — the same frontmatter values populate the cache directly.
+
+The field definitions, indexing hints, INDEX.md row format, and SQLite column mapping are maintained in `docs/field-registry.md` and `docs/field-summaries.yml`.
+
+### Two-Stage Retrieval Flow
+
+```text
+Stage 1 (now — no SQLite required):
+  LLM reads docs/memory/INDEX.md
+    → filters rows by overall_risk, review_type, owasp_categories
+    → loads only matching document(s)
+    → reads frontmatter first → decides whether to read the full body
+
+Stage 2 (after memory-hub SQLite Phase 1):
+  SQL query on security_reviews table
+    → SELECT doc_path WHERE overall_risk IN ('CRITICAL','HIGH')
+    → LLM never touches INDEX.md or document bodies for non-matching docs
+    → loads only the filtered doc paths
+    → reads frontmatter first → reads relevant sections
+```
+
+The frontmatter defined today is the SQL schema for tomorrow. No data migration is needed.
 It also lets the full-project audit re-read project memory hub artifacts before evaluating the implementation.
 
 The plan review command uses the same memory hub context to review `plan.md` and supporting design artifacts. After `/speckit.tasks` generates the task list, the task review command checks whether the sequencing still preserves the secure-by-design intent. After a security review, the follow-up command can turn findings into concrete tasks or technical debt while checking whether incomplete issues are already tracked, and it emits backlog-ready task records with source finding references. The apply command is the explicit opt-in step that writes approved follow-up items back into `tasks.md` and, when necessary, `plan.md`.
