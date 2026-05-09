@@ -32,10 +32,8 @@ Before planning follow-ups, check the Spec-Kit memory hub context.
 
 When `.specify/extensions/memory-md/config.yml` has `optimizer.enabled: true` and the CLI is available:
 
-1. **Refresh Cache**: Execute `npx speckit-memory refresh-memory` to ensure the local SQLite cache is up to date.
-2. **Targeted Security Search**: Execute `npx speckit-memory search-memory "security constraints vulnerabilities authentication authorization data-leakage"` to retrieve relevant durable memory entries.
-3. **Synthesis Refresh**: Execute `npx speckit-memory synthesize --feature specs/<feature>` to update the concise working summary.
-4. **Read Synthesis**: Read `specs/<feature>/memory-synthesis.md` (or the search results) first.
+1. **Prepare Context**: Execute `/speckit.memory-md.prepare-context --feature specs/<feature> --query "security constraints vulnerabilities authentication authorization data-leakage"`.
+2. **Read Synthesis**: Read `specs/<feature>/memory-synthesis.md` (or the search results) first.
 
 ### Markdown-Only Flow
 
@@ -90,7 +88,7 @@ When you choose `Track as technical debt`, include:
 4. Group the findings into immediate remediation, technical debt, and already-covered items.
 5. Generate Spec-Kit-ready follow-up tasks for the items that should be implemented now.
 6. Capture any deferred findings as technical-debt entries with a revisit trigger.
-7. **Durable Memory Preservation**: If any findings represent systemic security lessons or repeatable patterns, execute `/speckit.memory-md.capture` after providing the follow-up plan to ensure these lessons are preserved in the project's durable memory.
+7. **Durable Memory Preservation (Mandatory Check)**: If the follow-up planning identified systemic security lessons or reusable patterns, you **MUST** execute `/speckit.memory-md.capture` after providing the plan. Use the formal capture flow to propose entries and wait for user approval.
 
 ## Document Header
 

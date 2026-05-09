@@ -34,10 +34,8 @@ This command is the right fit for a branch, pull request, or merge request diff.
 
       When `.specify/extensions/memory-md/config.yml` has `optimizer.enabled: true` and the CLI is available:
 
-      1. **Refresh Cache**: Execute `npx speckit-memory refresh-memory`.
-      2. **Targeted Security Search**: Execute `npx speckit-memory search-memory "security constraints vulnerabilities authentication authorization data-leakage"`.
-      3. **Synthesis Refresh**: If a feature scope is identified, execute `npx speckit-memory synthesize --feature specs/<feature>`.
-      4. **Read Synthesis**: Read `specs/<feature>/memory-synthesis.md` (or the search results) first.
+      1. **Prepare Context**: Execute `/speckit.memory-md.prepare-context --feature specs/<feature> --query "security constraints vulnerabilities authentication authorization data-leakage"`.
+      2. **Read Synthesis**: Read `specs/<feature>/memory-synthesis.md` (or the search results) first.
 
       #### Markdown-Only Flow
 
@@ -60,7 +58,7 @@ This command is the right fit for a branch, pull request, or merge request diff.
    - Supply chain risks in newly added packages
 4. **Report Findings**: For each finding, report severity, location, OWASP category, description, remediation, and Spec-Kit task.
 5. **Action Plan**: Provide a prioritized action plan for fixing findings.
-6. **Durable Memory Preservation**: If systemic vulnerabilities or reusable security patterns were identified, execute `/speckit.memory-md.capture` after providing the report to ensure these lessons are preserved in the project's durable memory.
+6. **Durable Memory Preservation (Mandatory Check)**: If systemic vulnerabilities or reusable security patterns were identified, you **MUST** execute `/speckit.memory-md.capture` after providing the report. Use the formal capture flow to propose entries and wait for user approval.
 
 ## Document Header
 

@@ -31,10 +31,8 @@ Before reviewing the code, check the Spec-Kit memory hub context.
 
 When `.specify/extensions/memory-md/config.yml` has `optimizer.enabled: true` and the CLI is available:
 
-1. **Refresh Cache**: Execute `npx speckit-memory refresh-memory` to ensure the local SQLite cache is up to date.
-2. **Targeted Security Search**: Execute `npx speckit-memory search-memory "security constraints vulnerabilities authentication authorization data-leakage"` to retrieve relevant durable memory entries.
-3. **Synthesis Refresh**: If a feature scope is identified, execute `npx speckit-memory synthesize --feature specs/<feature>` to update the concise working summary.
-4. **Read Synthesis**: Read `specs/<feature>/memory-synthesis.md` (or the search results) first to understand active security constraints and historical lessons.
+1. **Prepare Context**: Execute `/speckit.memory-md.prepare-context --feature specs/<feature> --query "security constraints vulnerabilities authentication authorization data-leakage"`.
+2. **Read Synthesis**: Read `specs/<feature>/memory-synthesis.md` (or the search results) first to understand active security constraints and historical lessons.
 
 ### Markdown-Only Flow
 
@@ -619,12 +617,12 @@ Produce a comprehensive **SECURITY REVIEW REPORT** with the following structure:
 2. **Architecture Hardening**: Resolve trust boundary and data flow risks.
 3. **Report Findings**: For each finding, report severity, location, OWASP category, description, remediation, and Spec-Kit task.
 4. **Action Plan**: Provide a prioritized action plan for fixing findings.
-5. **Durable Memory Preservation**: If systemic vulnerabilities or reusable security patterns were identified, execute `/speckit.memory-md.capture` after providing the report to ensure these lessons are preserved in the project's durable memory.
+5. **Durable Memory Preservation (Mandatory Check)**: If systemic vulnerabilities or reusable security patterns were identified, you **MUST** execute `/speckit.memory-md.capture` after providing the report. Use the formal capture flow to propose entries and wait for user approval.
 
 ### E. Next Steps
 1. Review findings with development team
 2. Prioritize remediation tasks
-3. **Preserve Durable Lessons**: If systemic vulnerabilities or reusable security patterns were identified, run `/speckit.memory-md.capture` to update the project's durable memory (BUGS.md, DECISIONS.md).
+3. **Preserve Durable Lessons**: If systemic vulnerabilities or reusable security patterns were identified, run `/speckit.memory-md.capture`.
 4. Schedule follow-up assessment
 5. Integrate security checks into CI/CD
 
@@ -722,7 +720,7 @@ These tasks should be ready to import into Spec-Kit's task tracking system.
 6. Prioritize findings by risk and exploitability
 7. Be constructive—focus on remediation, not just problems
 8. Consider the business context when assessing impact
-9. **Durable Memory Preservation**: If systemic vulnerabilities or reusable security patterns were identified, execute `/speckit.memory-md.capture` after providing the report to ensure these lessons are preserved in the project's durable memory.
+9. **Durable Memory Preservation**: If systemic vulnerabilities or reusable security patterns were identified, you **MUST** execute `/speckit.memory-md.capture` after providing the report.
 
 ## Memory Hub INDEX.md Row
 
