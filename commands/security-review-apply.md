@@ -81,6 +81,7 @@ When the optimizer is disabled or unavailable, you **MUST** read these files exp
 5. Update `tasks.md` with any approved security tasks.
 6. Update `plan.md` only if the security design or sequencing needs to change.
 7. Summarize the files changed and the rationale for each change.
+8. **Proactive Durable Memory Preservation**: If applying these follow-ups reveals new security patterns or repeatable lessons (e.g., a specific way to handle CORS in this repo), proactively execute `/speckit.memory-md.capture`.
 
 ## Output Format
 

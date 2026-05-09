@@ -56,7 +56,7 @@ Review **only the code that is currently staged for commit** (or uncommitted wor
    - Supply chain risks in newly added packages
 4. **Report Findings**: For each finding, report severity, location, OWASP category, description, remediation, and Spec-Kit task.
 5. **Action Plan**: Provide a prioritized action plan for fixing findings.
-6. **Durable Memory Preservation (Mandatory Check)**: If systemic vulnerabilities or reusable security patterns were identified, you **MUST** execute `/speckit.memory-md.capture` after providing the report. Use the formal capture flow to propose entries and wait for user approval.
+6. **Proactive Durable Memory Preservation**: If systemic vulnerabilities or reusable security patterns were identified, you **MUST** proactively execute `/speckit.memory-md.capture` after providing the report. Use the formal capture flow to propose entries and wait for user approval. Do not ask; trigger the command immediately if lessons exist.
 
 ## Document Header
 
