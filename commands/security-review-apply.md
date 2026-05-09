@@ -31,10 +31,8 @@ Before applying updates, check the Spec-Kit memory hub context.
 
 When `.specify/extensions/memory-md/config.yml` has `optimizer.enabled: true` and the CLI is available:
 
-1. **Refresh Cache**: Execute `npx speckit-memory refresh-memory` to ensure the local SQLite cache is up to date.
-2. **Targeted Security Search**: Execute `npx speckit-memory search-memory "security constraints vulnerabilities authentication authorization data-leakage"` to retrieve relevant durable memory entries.
-3. **Synthesis Refresh**: Execute `npx speckit-memory synthesize --feature specs/<feature>` to update the concise working summary.
-4. **Read Synthesis**: Read `specs/<feature>/memory-synthesis.md` (or the search results) first.
+1. **Prepare Context**: Execute `/speckit.memory-md.prepare-context --feature specs/<feature> --query "security constraints vulnerabilities authentication authorization data-leakage"`.
+2. **Read Synthesis**: Read `specs/<feature>/memory-synthesis.md` (or the search results) first.
 
 ### Markdown-Only Flow
 

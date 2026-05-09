@@ -24,9 +24,8 @@ Read and analyze the following artifacts when present:
 
 When `.specify/extensions/memory-md/config.yml` has `optimizer.enabled: true` and the CLI is available:
 
-1. **Refresh Cache**: Execute `npx speckit-memory refresh-memory`.
-2. **Context Search**: Execute `npx speckit-memory search-memory "security decisions architecture constraints remediation"`.
-3. **Read Synthesis**: Read `specs/<feature>/memory-synthesis.md` to identify the "Why" behind the current design.
+1. **Prepare Context**: Execute `/speckit.memory-md.prepare-context --feature specs/<feature> --query "security decisions architecture constraints remediation"`.
+2. **Review Findings**: Ensure the export includes historical security context surfaced by the optimizer.
 
 ## Output Format
 
