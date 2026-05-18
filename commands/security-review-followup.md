@@ -11,6 +11,7 @@ $ARGUMENTS
 ## Objective
 
 Turn the latest security review findings, unresolved security tasks, or a pasted finding list into an actionable follow-up plan.
+If Memory Hub is available, use `/speckit.memory-md.prepare-context` or the MCP tools exposed by `spec-kit-memory-hub`; do not shell out to `npx memory-hub` directly.
 
 Use this command when you want to:
 

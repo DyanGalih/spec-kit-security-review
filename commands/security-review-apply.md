@@ -11,6 +11,7 @@ $ARGUMENTS
 ## Objective
 
 Apply approved security follow-up items into the local Spec-Kit planning artifacts without changing the broader project implementation.
+If Memory Hub is available, use `/speckit.memory-md.prepare-context` or the MCP tools exposed by `spec-kit-memory-hub`; do not shell out to `npx memory-hub` directly.
 
 Use this command when you want to:
 

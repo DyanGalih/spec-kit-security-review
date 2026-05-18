@@ -26,6 +26,7 @@ When `.specify/extensions/memory-md/config.yml` has `optimizer.enabled: true` an
 
 1. **Prepare Context**: Execute `/speckit.memory-md.prepare-context --feature specs/<feature> --query "security decisions architecture constraints remediation"`.
 2. **Review Findings**: Ensure the export includes historical security context surfaced by the optimizer.
+3. Do not call `npx memory-hub` directly; use the `speckit.memory-md` command surface or the MCP tools exposed by the installed Memory Hub.
 
 ## Output Format
 

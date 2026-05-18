@@ -18,6 +18,7 @@ scripts:
 ## Objective
 
 Review **only the code changes introduced in the identified scope**. Do not review unchanged code in the full codebase. Produce targeted security findings with severity, location, and remediation guidance.
+If Memory Hub is available, use `/speckit.memory-md.prepare-context` or the MCP tools exposed by `spec-kit-memory-hub`; do not shell out to `npx memory-hub` directly.
 
 This command is the right fit for a branch, pull request, or merge request diff.
 

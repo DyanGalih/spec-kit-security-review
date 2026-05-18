@@ -11,6 +11,7 @@ $ARGUMENTS
 ## Objective
 
 Review the current Spec-Kit task list before implementation begins. Focus on task sequencing, security coverage, dependency ordering, and whether the plan has been converted into secure, testable, and reviewable work items.
+If Memory Hub is available, use `/speckit.memory-md.prepare-context` or the MCP tools exposed by `spec-kit-memory-hub`; do not shell out to `npx memory-hub` directly.
 
 When project memory exists, use it as design context. Compare the task list against the project memory hub, architecture decisions, and any repository-native memory artifacts the team uses to preserve intent.
 

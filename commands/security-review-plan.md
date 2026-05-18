@@ -11,6 +11,7 @@ $ARGUMENTS
 ## Objective
 
 Review the current Spec-Kit plan artifact before implementation begins. Focus on the planning documents, not source code, and identify any design choices that would weaken security, create ambiguity, or make secure implementation harder later.
+If Memory Hub is available, use `/speckit.memory-md.prepare-context` or the MCP tools exposed by `spec-kit-memory-hub`; do not shell out to `npx memory-hub` directly.
 
 When project memory exists, use it as design context. Compare the plan against the project memory hub, architecture decisions, and any repository-native memory artifacts the team uses to preserve intent.
 

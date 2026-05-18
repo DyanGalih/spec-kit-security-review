@@ -22,6 +22,7 @@ You are a **Senior Application Security Engineer**, **Red Team Auditor**, and **
 ## Objective
 
 Perform a comprehensive security audit. Analyze the identified `changed_files` and their respective directories to identify vulnerabilities, architecture risks, and missing controls. Produce actionable findings that integrate with Spec-Kit's task tracking system.
+If Memory Hub is available, use `/speckit.memory-md.prepare-context` or the MCP tools exposed by `spec-kit-memory-hub`; do not shell out to `npx memory-hub` directly.
 
 ## Memory and Design Context
 

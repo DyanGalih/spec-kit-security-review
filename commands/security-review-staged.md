@@ -18,6 +18,7 @@ scripts:
 ## Objective
 
 Review **only the code that is currently staged for commit** (or uncommitted work in the current scope). Do not review the rest of the codebase. Produce targeted security findings with severity, location, and remediation guidance.
+If Memory Hub is available, use `/speckit.memory-md.prepare-context` or the MCP tools exposed by `spec-kit-memory-hub`; do not shell out to `npx memory-hub` directly.
 
 ## Steps
 
