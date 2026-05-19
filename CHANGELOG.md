@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.5.1
+
+- Bumped the extension version to `1.5.1`.
+- Updated release and installation references to the new tag.
+
 ## v1.4.9
 
 - Added explicit instructions for agents to read specification files bypassing gitignore.
