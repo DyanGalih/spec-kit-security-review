@@ -2,7 +2,7 @@
 
 > Continuous security governance and OWASP auditing for AI-assisted development.
 
-[![Version](https://img.shields.io/badge/version-1.5.1-22c55e)](extension.yml)
+[![Version](https://img.shields.io/badge/version-1.5.2-22c55e)](extension.yml)
 [![Spec Kit](https://img.shields.io/badge/Spec%20Kit-compatible-2563eb)](https://spec-kit.dev)
 [![OWASP](https://img.shields.io/badge/OWASP-2025-ef4444)](https://owasp.org/Top10/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-f59e0b)](LICENSE)
@@ -56,7 +56,7 @@ specify extension add security-review
 
 ```text
 specify extension add security-review --from \
-  https://github.com/DyanGalih/spec-kit-security-review/archive/refs/tags/v1.5.1.zip
+   https://github.com/DyanGalih/spec-kit-security-review/archive/refs/tags/v1.5.2.zip
 ```
 
 ### Local Development
@@ -317,12 +317,15 @@ Security Review respects the following project governance artifacts when they ex
 
 ## Optimizer-Aware Memory Retrieval
 
-This extension integrates with [spec-kit-memory-hub](https://github.com/DyanGalih/spec-kit-memory-hub)'s local SQLite optimizer. When enabled, the extension uses the `speckit-memory` CLI to perform targeted searches across your project's durable memory rather than reading full directories.
+This extension integrates with [flash-mem](https://github.com/DyanGalih/flash-mem) as the primary memory workflow for Spec Kit integration. When enabled, the extension uses `flash-mem` to prepare context and perform targeted searches across your project's durable memory rather than reading full directories.
+
+If `flash-mem` is unavailable, the extension falls back to [spec-kit-memory-hub](https://github.com/DyanGalih/spec-kit-memory-hub) for the compatibility MCP surface.
 
 To enable this:
-1. Ensure `spec-kit-memory-hub` is installed.
+1. Ensure `flash-mem` is installed.
 2. Set `optimizer.enabled: true` in your `.specify/extensions/memory-md/config.yml`.
-3. The security review agent will automatically switch to the **Optimizer-Aware Flow** (Refresh -> Search -> Synthesize -> Read).
+3. If `flash-mem` is unavailable, install `spec-kit-memory-hub` so the compatibility MCP surface can provide the same project-memory context.
+4. The security review agent will automatically switch to the **Optimizer-Aware Flow** (Prepare Context -> Search -> Synthesize -> Read).
 
 ---
 
@@ -553,7 +556,7 @@ Generated reports include a **YAML frontmatter header** before the report body. 
 
 - An LLM reads the header and decides whether the document is relevant before loading the body
 - The header fields map directly to `docs/memory/INDEX.md` routing rows for token-efficient retrieval
-- The same fields become SQL columns when memory-hub SQLite Phase 1 is enabled — no rework needed
+- The same fields become SQL columns when flash-mem SQLite Phase 1 or the compatibility memory-hub optimizer is enabled — no rework needed
 
 See [docs/field-registry.md](docs/field-registry.md) for the full field schema and [docs/usage.md](docs/usage.md) for INDEX.md integration instructions.
 

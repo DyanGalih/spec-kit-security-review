@@ -5,7 +5,7 @@ This document defines every metadata field used in security review documents gen
 Each field maps directly to:
 1. A key in the YAML frontmatter of every generated report (machine-parseable header)
 2. A column in the `docs/memory/INDEX.md` routing table (LLM-readable filter layer)
-3. A future SQL column in the memory-hub SQLite cache (Phase 1 optimizer)
+3. A future SQL column in the flash-mem SQLite cache or compatibility memory-hub cache (Phase 1 optimizer)
 
 The frontmatter fields are the schema for all three layers. Define them once here; they serve every stage.
 
@@ -101,7 +101,7 @@ Each generated security review document should have a corresponding routing row 
 
 ### SQLite Phase 1 mapping
 
-When memory-hub SQLite Phase 1 is implemented, the INDEX.md columns map directly to SQL columns:
+When flash-mem SQLite Phase 1 or the compatibility memory-hub optimizer is implemented, the INDEX.md columns map directly to SQL columns:
 
 ```sql
 CREATE TABLE security_reviews (

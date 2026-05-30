@@ -11,7 +11,7 @@ $ARGUMENTS
 ## Objective
 
 Apply approved security follow-up items into the local Spec-Kit planning artifacts without changing the broader project implementation.
-If Memory Hub is available, use `/speckit.memory-md.prepare-context` or the MCP tools exposed by `spec-kit-memory-hub`; do not shell out to `npx memory-hub` directly.
+If `flash-mem` is available, use `flash-mem prepare-context` and the canonical memory tools (`get_project_summary`, `search_memory`, `get_relevant_context`). If `flash-mem` is not installed, fall back to the MCP tools exposed by `spec-kit-memory-hub`; do not shell out to `npx memory-hub` directly.
 
 Use this command when you want to:
 
@@ -32,7 +32,7 @@ Before applying updates, check the Spec-Kit memory hub context.
 
 When `.specify/extensions/memory-md/config.yml` has `optimizer.enabled: true` and the CLI is available:
 
-1. **Prepare Context**: Execute `/speckit.memory-md.prepare-context --feature specs/<feature> --query "security constraints vulnerabilities authentication authorization data-leakage"`.
+	1. **Prepare Context**: Execute `flash-mem prepare-context --feature specs/<feature> --query "security constraints vulnerabilities authentication authorization data-leakage"`.
 2. **Read Synthesis**: Read `specs/<feature>/memory-synthesis.md` (or the search results) first.
 
 ### Markdown-Only Flow
@@ -82,7 +82,7 @@ When the optimizer is disabled or unavailable, you **MUST** read these files exp
 5. Update `tasks.md` with any approved security tasks.
 6. Update `plan.md` only if the security design or sequencing needs to change.
 7. Summarize the files changed and the rationale for each change.
-8. **Proactive Durable Memory Preservation**: If applying these follow-ups reveals new security patterns or repeatable lessons (e.g., a specific way to handle CORS in this repo), proactively execute `/speckit.memory-md.capture`.
+8. **Proactive Durable Memory Preservation**: If applying these follow-ups reveals new security patterns or repeatable lessons (e.g., a specific way to handle CORS in this repo), proactively use `flash-mem capture_artifact_memory`, or the corresponding `spec-kit-memory-hub` capture flow if flash-mem is unavailable.
 
 ## Output Format
 

@@ -11,7 +11,7 @@ $ARGUMENTS
 ## Objective
 
 Review the current Spec-Kit plan artifact before implementation begins. Focus on the planning documents, not source code, and identify any design choices that would weaken security, create ambiguity, or make secure implementation harder later.
-If Memory Hub is available, use `/speckit.memory-md.prepare-context` or the MCP tools exposed by `spec-kit-memory-hub`; do not shell out to `npx memory-hub` directly.
+If `flash-mem` is available, use `flash-mem prepare-context` and the canonical memory tools (`get_project_summary`, `search_memory`, `get_relevant_context`). If `flash-mem` is not installed, fall back to the MCP tools exposed by `spec-kit-memory-hub`; do not shell out to `npx memory-hub` directly.
 
 When project memory exists, use it as design context. Compare the plan against the project memory hub, architecture decisions, and any repository-native memory artifacts the team uses to preserve intent.
 
@@ -23,7 +23,7 @@ Before reviewing the design, check the Spec-Kit memory hub context.
 
 When `.specify/extensions/memory-md/config.yml` has `optimizer.enabled: true` and the CLI is available:
 
-1. **Prepare Context**: Execute `/speckit.memory-md.prepare-context --feature specs/<feature> --query "security constraints vulnerabilities authentication authorization data-leakage"`.
+1. **Prepare Context**: Execute `flash-mem prepare-context --feature specs/<feature> --query "security constraints vulnerabilities authentication authorization data-leakage"`.
 2. **Read Synthesis**: Read `specs/<feature>/memory-synthesis.md` (or the search results) first.
 
 ### Markdown-Only Flow
@@ -120,7 +120,7 @@ Produce a structured Markdown security review report with:
 
 After providing the report, finalize with:
 
-1.  **Durable Memory Preservation (Mandatory Check)**: If systemic vulnerabilities or reusable security patterns were identified (e.g. a new auth boundary decision), you **MUST** execute `/speckit.memory-md.capture` after providing the report. Use the formal capture flow to propose entries and wait for user approval.
+1.  **Durable Memory Preservation (Mandatory Check)**: If systemic vulnerabilities or reusable security patterns were identified (e.g. a new auth boundary decision), you **MUST** use `flash-mem capture_artifact_memory` after providing the report. If `flash-mem` is unavailable, fall back to the corresponding `spec-kit-memory-hub` capture flow and wait for user approval.
 2.  **Remediation Planning**: If critical or high findings were found, recommend executing `/speckit.security-review.followup` to create remediation tasks.
 
 ---

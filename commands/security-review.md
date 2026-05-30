@@ -22,7 +22,7 @@ You are a **Senior Application Security Engineer**, **Red Team Auditor**, and **
 ## Objective
 
 Perform a comprehensive security audit. Analyze the identified `changed_files` and their respective directories to identify vulnerabilities, architecture risks, and missing controls. Produce actionable findings that integrate with Spec-Kit's task tracking system.
-If Memory Hub is available, use `/speckit.memory-md.prepare-context` or the MCP tools exposed by `spec-kit-memory-hub`; do not shell out to `npx memory-hub` directly.
+If `flash-mem` is available, use `flash-mem prepare-context` and the canonical memory tools (`get_project_summary`, `search_memory`, `get_relevant_context`). If `flash-mem` is not installed, fall back to the MCP tools exposed by `spec-kit-memory-hub`; do not shell out to `npx memory-hub` directly.
 
 ## Memory and Design Context
 
@@ -32,7 +32,7 @@ Before reviewing the code, check the Spec-Kit memory hub context.
 
 When `.specify/extensions/memory-md/config.yml` has `optimizer.enabled: true` and the CLI is available:
 
-1. **Prepare Context**: Execute `/speckit.memory-md.prepare-context --feature specs/<feature> --query "security constraints vulnerabilities authentication authorization data-leakage"`.
+1. **Prepare Context**: Execute `flash-mem prepare-context --feature specs/<feature> --query "security constraints vulnerabilities authentication authorization data-leakage"`.
 2. **Read Synthesis**: Read `specs/<feature>/memory-synthesis.md` (or the search results) first to understand active security constraints and historical lessons.
 
 ### Markdown-Only Flow
@@ -618,12 +618,12 @@ Produce a comprehensive **SECURITY REVIEW REPORT** with the following structure:
 2. **Architecture Hardening**: Resolve trust boundary and data flow risks.
 3. **Report Findings**: For each finding, report severity, location, OWASP category, description, remediation, and Spec-Kit task.
 4. **Action Plan**: Provide a prioritized action plan for fixing findings.
-5. **Proactive Durable Memory Preservation**: If systemic vulnerabilities or reusable security patterns were identified, you **MUST** proactively execute `/speckit.memory-md.capture` as the final part of this turn. Use the formal capture flow to propose entries and wait for user approval.
+5. **Proactive Durable Memory Preservation**: If systemic vulnerabilities or reusable security patterns were identified, you **MUST** proactively use `flash-mem capture_artifact_memory` as the final part of this turn. If `flash-mem` is unavailable, fall back to the corresponding `spec-kit-memory-hub` capture flow and wait for user approval.
 
 ### E. Next Steps
 1. Review findings with development team
 2. Prioritize remediation tasks
-3. **Preserve Durable Lessons**: If systemic vulnerabilities or reusable security patterns were identified, run `/speckit.memory-md.capture`.
+3. **Preserve Durable Lessons**: If systemic vulnerabilities or reusable security patterns were identified, use `flash-mem capture_artifact_memory` or the corresponding `spec-kit-memory-hub` capture flow if flash-mem is unavailable.
 4. Schedule follow-up assessment
 5. Integrate security checks into CI/CD
 
@@ -721,7 +721,7 @@ These tasks should be ready to import into Spec-Kit's task tracking system.
 6. Prioritize findings by risk and exploitability
 7. Be constructive—focus on remediation, not just problems
 8. Consider the business context when assessing impact
-9. **Proactive Durable Memory Preservation**: If systemic vulnerabilities or reusable security patterns were identified, you **MUST** proactively execute `/speckit.memory-md.capture` as the final action.
+9. **Proactive Durable Memory Preservation**: If systemic vulnerabilities or reusable security patterns were identified, you **MUST** proactively use `flash-mem capture_artifact_memory` as the final action. If `flash-mem` is unavailable, fall back to the corresponding `spec-kit-memory-hub` capture flow.
 
 ## Memory Hub INDEX.md Row
 

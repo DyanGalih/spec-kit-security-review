@@ -210,11 +210,11 @@ Use this when you need to provide a formal report to stakeholders, clients, or c
 
 ## Memory Optimization with SQLite
 
-Security Review supports an **Optimizer-Aware Flow** for projects using the `spec-kit-memory-hub` SQLite optimizer. This significantly reduces token usage and improves review accuracy by targeting only relevant security context.
+Security Review supports an **Optimizer-Aware Flow** for projects using `flash-mem` as the primary memory layer. This significantly reduces token usage and improves review accuracy by targeting only relevant security context.
 
 ### Enabling the Optimizer
 
-If you have `spec-kit-memory-hub` installed, you can enable the optimized flow by setting:
+If you have `flash-mem` installed, you can enable the optimized flow by setting:
 
 ```yaml
 # .specify/extensions/memory-md/config.yml
@@ -226,12 +226,14 @@ optimizer:
 
 When the optimizer is enabled, the security commands follow this automated retrieval sequence:
 
-1. **`refresh-memory`**: Syncs the local SQLite cache with your markdown files.
-2. **`search-memory`**: Performs a keyword search for security domains (vulnerabilities, authentication, etc.).
-3. **`synthesize`**: Generates a concise `memory-synthesis.md` for the current feature scope.
+1. **`prepare-context`**: Builds the current feature context for the review.
+2. **`search_memory`**: Performs a keyword search for security domains (vulnerabilities, authentication, etc.).
+3. **`get_relevant_context`**: Pulls the most useful durable-memory snippets for the review.
 4. **Targeted Read**: The agent reads only the synthesis and relevant search results.
 
 This replaces the "Markdown-Only Flow" which requires reading the entire `docs/memory/` directory.
+
+If `flash-mem` is unavailable, the extension falls back to the `spec-kit-memory-hub` compatibility surface and keeps the same review workflow.
 
 ## Troubleshooting
 
@@ -293,9 +295,9 @@ Every generated report starts with a YAML frontmatter block before the `# SECURI
 
 Full field definitions, types, ranges, and examples are in [field-registry.md](field-registry.md).
 
-### Connecting to memory-hub INDEX.md
+### Connecting to flash-mem / memory INDEX.md
 
-After generating a report, each prompt also outputs a proposed **INDEX.md routing row**. Paste this row into your `docs/memory/INDEX.md` Security Reviews table:
+After generating a report, each prompt also outputs a proposed **INDEX.md routing row**. Paste this row into your `docs/memory/INDEX.md` Security Reviews table, or use the equivalent memory-hub review buffer when running through the compatibility path:
 
 ```markdown
 ## Security Reviews

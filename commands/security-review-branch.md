@@ -18,7 +18,7 @@ scripts:
 ## Objective
 
 Review **only the code changes introduced in the identified scope**. Do not review unchanged code in the full codebase. Produce targeted security findings with severity, location, and remediation guidance.
-If Memory Hub is available, use `/speckit.memory-md.prepare-context` or the MCP tools exposed by `spec-kit-memory-hub`; do not shell out to `npx memory-hub` directly.
+If `flash-mem` is available, use `flash-mem prepare-context` and the canonical memory tools (`get_project_summary`, `search_memory`, `get_relevant_context`). If `flash-mem` is not installed, fall back to the MCP tools exposed by `spec-kit-memory-hub`; do not shell out to `npx memory-hub` directly.
 
 This command is the right fit for a branch, pull request, or merge request diff.
 
@@ -35,7 +35,7 @@ This command is the right fit for a branch, pull request, or merge request diff.
 
       When `.specify/extensions/memory-md/config.yml` has `optimizer.enabled: true` and the CLI is available:
 
-      1. **Prepare Context**: Execute `/speckit.memory-md.prepare-context --feature specs/<feature> --query "security constraints vulnerabilities authentication authorization data-leakage"`.
+      1. **Prepare Context**: Execute `flash-mem prepare-context --feature specs/<feature> --query "security constraints vulnerabilities authentication authorization data-leakage"`.
       2. **Read Synthesis**: Read `specs/<feature>/memory-synthesis.md` (or the search results) first.
 
       #### Markdown-Only Flow
@@ -59,7 +59,7 @@ This command is the right fit for a branch, pull request, or merge request diff.
    - Supply chain risks in newly added packages
 4. **Report Findings**: For each finding, report severity, location, OWASP category, description, remediation, and Spec-Kit task.
 5. **Action Plan**: Provide a prioritized action plan for fixing findings.
-6. **Durable Memory Preservation (Mandatory Check)**: If systemic vulnerabilities or reusable security patterns were identified, you **MUST** execute `/speckit.memory-md.capture` after providing the report. Use the formal capture flow to propose entries and wait for user approval.
+6. **Durable Memory Preservation (Mandatory Check)**: If systemic vulnerabilities or reusable security patterns were identified, you **MUST** use `flash-mem capture_artifact_memory` after providing the report. If `flash-mem` is unavailable, fall back to the corresponding `spec-kit-memory-hub` capture flow and wait for user approval.
 
 ## Document Header
 

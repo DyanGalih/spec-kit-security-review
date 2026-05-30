@@ -1,9 +1,10 @@
 # Changelog
 
-## v1.5.1
+## v1.5.2
 
-- Bumped the extension version to `1.5.1`.
+- Bumped the extension version to `1.5.2`.
 - Updated release and installation references to the new tag.
+- Updated memory-oriented documentation to make `flash-mem` the primary integration path and keep `spec-kit-memory-hub` as the compatibility fallback.
 
 ## v1.4.9
 

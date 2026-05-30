@@ -42,7 +42,7 @@ Use this when you want a pinned version from a tagged release.
 cd /path/to/spec-kit-project
 
 specify extension add security-review --from \
-  https://github.com/DyanGalih/spec-kit-security-review/archive/refs/tags/v1.5.1.zip
+  https://github.com/DyanGalih/spec-kit-security-review/archive/refs/tags/v1.5.2.zip
 ```
 
 ## Install a Local Checkout for Development
@@ -110,18 +110,20 @@ Then call the command with that context in mind:
 /speckit.security-review.audit use the settings from speckit-security.yml as the review brief
 ```
 
-## Memory Hub Context
+## Flash-Mem / Memory Context
 
 If your Spec-Kit project already uses repository-native memory artifacts, include them in the context for the full-project audit and for branch, pull request, or merge request diff reviews.
 
-The extension is intended to work with the memory hub as design context:
+The extension is intended to work with flash-mem as the primary design context layer:
 
 - Durable memory from `docs/memory/`
 - Active feature memory from `specs/<feature>/memory.md`
 - Concise working summaries from `specs/<feature>/memory-synthesis.md`
 - Copilot instructions from `.github/copilot-instructions.md`
 
-If you install [spec-kit-memory-hub](https://github.com/DyanGalih/spec-kit-memory-hub), these artifacts give the security review more project-specific context without changing the extension workflow.
+If you install [flash-mem](https://github.com/DyanGalih/flash-mem), these artifacts give the security review more project-specific context without changing the extension workflow.
+
+If `flash-mem` is not available, install [spec-kit-memory-hub](https://github.com/DyanGalih/spec-kit-memory-hub) as the compatibility path for the same review flow.
 
 When the memory context and the current implementation diverge, call that out explicitly in the review.
 

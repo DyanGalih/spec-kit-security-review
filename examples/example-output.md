@@ -37,7 +37,7 @@ field_summaries:
 
 This document demonstrates the output format of the `/speckit.security-review.audit` command.
 
-It is the full-project review mode: the agent reviews the current codebase and uses repository-native memory artifacts as design input when those artifacts exist. In a memory-hub project, that usually means `docs/memory/`, `specs/<feature>/memory.md`, `specs/<feature>/memory-synthesis.md`, and `.github/copilot-instructions.md`. The command does not automatically update plan or task files unless the prompt explicitly asks it to.
+It is the full-project review mode: the agent reviews the current codebase and uses repository-native memory artifacts as design input when those artifacts exist. In a flash-mem project, that usually means `docs/memory/`, `specs/<feature>/memory.md`, `specs/<feature>/memory-synthesis.md`, and `.github/copilot-instructions.md`. If flash-mem is unavailable, the same prompt can fall back to the `spec-kit-memory-hub` compatibility surface. The command does not automatically update plan or task files unless the prompt explicitly asks it to.
 
 For plan review, use `/speckit.security-review.plan`. For task review, use `/speckit.security-review.tasks`. For staged-only reviews, use `/speckit.security-review.staged`. For branch, pull request, or merge request reviews, use `/speckit.security-review.branch`. For turning findings into tasks or technical debt, use `/speckit.security-review.followup`.
 

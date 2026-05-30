@@ -11,7 +11,7 @@ $ARGUMENTS
 ## Objective
 
 Turn the latest security review findings, unresolved security tasks, or a pasted finding list into an actionable follow-up plan.
-If Memory Hub is available, use `/speckit.memory-md.prepare-context` or the MCP tools exposed by `spec-kit-memory-hub`; do not shell out to `npx memory-hub` directly.
+If `flash-mem` is available, use `flash-mem prepare-context` and the canonical memory tools (`get_project_summary`, `search_memory`, `get_relevant_context`). If `flash-mem` is not installed, fall back to the MCP tools exposed by `spec-kit-memory-hub`; do not shell out to `npx memory-hub` directly.
 
 Use this command when you want to:
 
@@ -33,7 +33,7 @@ Before planning follow-ups, check the Spec-Kit memory hub context.
 
 When `.specify/extensions/memory-md/config.yml` has `optimizer.enabled: true` and the CLI is available:
 
-1. **Prepare Context**: Execute `/speckit.memory-md.prepare-context --feature specs/<feature> --query "security constraints vulnerabilities authentication authorization data-leakage"`.
+1. **Prepare Context**: Execute `flash-mem prepare-context --feature specs/<feature> --query "security constraints vulnerabilities authentication authorization data-leakage"`.
 2. **Read Synthesis**: Read `specs/<feature>/memory-synthesis.md` (or the search results) first.
 
 ### Markdown-Only Flow
@@ -89,7 +89,7 @@ When you choose `Track as technical debt`, include:
 4. Group the findings into immediate remediation, technical debt, and already-covered items.
 5. Generate Spec-Kit-ready follow-up tasks for the items that should be implemented now.
 6. Capture any deferred findings as technical-debt entries with a revisit trigger.
-7. **Durable Memory Preservation (Mandatory Check)**: If the follow-up planning identified systemic security lessons or reusable patterns, you **MUST** execute `/speckit.memory-md.capture` after providing the plan. Use the formal capture flow to propose entries and wait for user approval.
+7. **Durable Memory Preservation (Mandatory Check)**: If the follow-up planning identified systemic security lessons or reusable patterns, you **MUST** use `flash-mem capture_artifact_memory` after providing the plan. If `flash-mem` is unavailable, fall back to the corresponding `spec-kit-memory-hub` capture flow and wait for user approval.
 
 ## Document Header
 

@@ -137,7 +137,7 @@ index_md_row:
   example: "| docs/security-reviews/2026-05-07-auth.md | audit | 2026-05-07 | HIGH | C:2 H:4 M:6 L:4 | A01,A05,A07 |"
 
 sqlite_phase1_schema:
-  description: "Future SQL schema when memory-hub SQLite Phase 1 is implemented. No rework needed — values come directly from frontmatter."
+  description: "Future SQL schema when flash-mem SQLite Phase 1 or the compatibility memory-hub optimizer is implemented. No rework needed — values come directly from frontmatter."
   table: security_reviews
   columns:
     - name: doc_path

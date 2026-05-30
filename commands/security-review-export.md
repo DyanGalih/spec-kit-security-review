@@ -24,9 +24,9 @@ Read and analyze the following artifacts when present:
 
 When `.specify/extensions/memory-md/config.yml` has `optimizer.enabled: true` and the CLI is available:
 
-1. **Prepare Context**: Execute `/speckit.memory-md.prepare-context --feature specs/<feature> --query "security decisions architecture constraints remediation"`.
+1. **Prepare Context**: Execute `flash-mem prepare-context --feature specs/<feature> --query "security decisions architecture constraints remediation"`.
 2. **Review Findings**: Ensure the export includes historical security context surfaced by the optimizer.
-3. Do not call `npx memory-hub` directly; use the `speckit.memory-md` command surface or the MCP tools exposed by the installed Memory Hub.
+3. If `flash-mem` is available, use its canonical memory tools and `prepare-context` flow. If it is not installed, use the MCP tools exposed by `spec-kit-memory-hub`; do not call `npx memory-hub` directly.
 
 ## Output Format
 
@@ -142,4 +142,4 @@ The assessment evaluated the codebase against **OWASP Top 10 (2025)**, **CWE/SAN
 2. **Categorize**: Group findings by OWASP category in the technical section.
 3. **Professionalism**: Use formal language (e.g., "The assessment identified..." instead of "I found...").
 4. **Actionable**: Ensure every remediation step is compatible with the Spec-Kit `plan.md` style.
-5. **Durable Memory**: If systemic findings are found, suggest running `/speckit.memory-md.capture` after the export.
+5. **Durable Memory**: If systemic findings are found, suggest using `flash-mem capture_artifact_memory` after the export, or the corresponding `spec-kit-memory-hub` capture flow if flash-mem is unavailable.

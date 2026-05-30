@@ -108,7 +108,7 @@ Every generated security review document starts with a YAML frontmatter block. T
 
 2. **INDEX.md routing**: Each frontmatter block maps to a compact routing row in the consuming repo's `docs/memory/INDEX.md`. The row contains the same key fields in one line, allowing the LLM to filter across all security review documents using only the index — without loading any document body.
 
-3. **SQLite Phase 1 readiness**: The frontmatter fields are the exact schema that memory-hub SQLite Phase 1 will ingest as SQL columns. No rework is required when the optimizer is enabled — the same frontmatter values populate the cache directly.
+3. **SQLite Phase 1 readiness**: The frontmatter fields are the exact schema that flash-mem and the compatibility memory-hub layer can ingest as SQL columns. No rework is required when the optimizer is enabled — the same frontmatter values populate the cache directly.
 
 The field definitions, indexing hints, INDEX.md row format, and SQLite column mapping are maintained in `docs/field-registry.md` and `docs/field-summaries.yml`.
 
@@ -121,7 +121,7 @@ Stage 1 (now — no SQLite required):
     → loads only matching document(s)
     → reads frontmatter first → decides whether to read the full body
 
-Stage 2 (after memory-hub SQLite Phase 1):
+Stage 2 (after flash-mem SQLite Phase 1 / compatibility optimizer):
   SQL query on security_reviews table
     → SELECT doc_path WHERE overall_risk IN ('CRITICAL','HIGH')
     → LLM never touches INDEX.md or document bodies for non-matching docs
@@ -130,9 +130,9 @@ Stage 2 (after memory-hub SQLite Phase 1):
 ```
 
 The frontmatter defined today is the SQL schema for tomorrow. No data migration is needed.
-It also lets the full-project audit re-read project memory hub artifacts before evaluating the implementation.
+It also lets the full-project audit re-read project memory artifacts before evaluating the implementation.
 
-The plan review command uses the same memory hub context to review `plan.md` and supporting design artifacts. After `/speckit.tasks` generates the task list, the task review command checks whether the sequencing still preserves the secure-by-design intent. After a security review, the follow-up command can turn findings into concrete tasks or technical debt while checking whether incomplete issues are already tracked, and it emits backlog-ready task records with source finding references. The apply command is the explicit opt-in step that writes approved follow-up items back into `tasks.md` and, when necessary, `plan.md`.
+The plan review command uses the same flash-mem context to review `plan.md` and supporting design artifacts. If flash-mem is unavailable, it uses the spec-kit-memory-hub compatibility context. After `/speckit.tasks` generates the task list, the task review command checks whether the sequencing still preserves the secure-by-design intent. After a security review, the follow-up command can turn findings into concrete tasks or technical debt while checking whether incomplete issues are already tracked, and it emits backlog-ready task records with source finding references. The apply command is the explicit opt-in step that writes approved follow-up items back into `tasks.md` and, when necessary, `plan.md`.
 
 ## Security Coverage Model
 
