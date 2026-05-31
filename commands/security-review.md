@@ -24,6 +24,61 @@ You are a **Senior Application Security Engineer**, **Red Team Auditor**, and **
 Perform a comprehensive security audit. Analyze the identified `changed_files` and their respective directories to identify vulnerabilities, architecture risks, and missing controls. Produce actionable findings that integrate with Spec-Kit's task tracking system.
 If `flash-mem` is available, use `flash-mem prepare-context` and the canonical memory tools (`get_project_summary`, `search_memory`, `get_relevant_context`). If `flash-mem` is not installed, fall back to the MCP tools exposed by `spec-kit-memory-hub`; do not shell out to `npx memory-hub` directly.
 
+## Flash-Mem Security Context Retrieval
+
+Before performing security analysis:
+
+1. Search Flash-Mem for relevant security context before reading the code in depth.
+2. Prefer summary-first retrieval and collect `title`, `summary`, `category`, `tags`, `confidence`, and `related files` first.
+3. Prioritize retrieval in this order: project-specific security memories, recent findings, high-confidence findings, previously validated findings, repeated attack patterns, and organization-wide lessons learned.
+4. Retrieve full memory content only when summaries are insufficient, a finding appears highly relevant, or detailed remediation history is required.
+5. Check whether a candidate finding has previously occurred, been accepted as risk, been mitigated, or been classified as a false positive.
+6. Reuse validated security knowledge whenever possible and avoid generating duplicate findings when historical evidence already exists.
+7. Keep the workflow compatible with future Flash-Mem improvements and do not depend on storage internals, ranking details, or export behavior.
+
+## Flash-Mem Security Knowledge Capture
+
+After analysis completes, store durable security knowledge back into Flash-Mem.
+
+Persist:
+
+- confirmed vulnerabilities
+- approved mitigations
+- accepted risks
+- recurring attack patterns
+- authentication decisions
+- authorization decisions
+- secure-by-design decisions
+- compliance-related decisions
+- remediation lessons learned
+- validated false-positive patterns
+
+Do not persist:
+
+- speculative findings
+- temporary reasoning
+- incomplete investigations
+- low-confidence assumptions
+- intermediate analysis artifacts
+
+## Security Memory Quality Rules
+
+Before storing security memory, verify that evidence exists, the finding is actionable, the memory will be reusable, the result is validated, and confidence is sufficient.
+Prefer fewer high-quality security memories over many low-value memories.
+
+## Security Retrieval Priorities
+
+When multiple memories exist, prioritize:
+
+1. Project-specific security memories
+2. Recent security findings
+3. High-confidence findings
+4. Previously validated findings
+5. Repeated attack patterns
+6. Organization-wide lessons learned
+
+Avoid retrieving redundant memories.
+
 ## Memory and Design Context
 
 Before reviewing the code, check the Spec-Kit memory hub context.
@@ -679,6 +734,7 @@ Use the following severity classification:
 6. **Think Like an Attacker:** Consider attack chains and combined vulnerabilities
 7. **Validate Findings:** Ensure findings are not false positives
 8. **Provide Solutions:** Every finding must have actionable remediation
+9. **Check Historical Matches:** If Flash-Mem shows the issue was previously accepted, mitigated, or classified as a false positive, do not create a duplicate finding.
 
 ---
 
@@ -722,6 +778,7 @@ These tasks should be ready to import into Spec-Kit's task tracking system.
 7. Be constructive—focus on remediation, not just problems
 8. Consider the business context when assessing impact
 9. **Proactive Durable Memory Preservation**: If systemic vulnerabilities or reusable security patterns were identified, you **MUST** proactively use `flash-mem capture_artifact_memory` as the final action. If `flash-mem` is unavailable, fall back to the corresponding `spec-kit-memory-hub` capture flow.
+10. **Avoid Duplicate Findings**: If historical evidence already records the issue as accepted risk, mitigated, or a false positive, classify it accordingly instead of creating a new finding.
 
 ## Memory Hub INDEX.md Row
 

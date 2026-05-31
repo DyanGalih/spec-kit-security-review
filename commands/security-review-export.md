@@ -28,6 +28,61 @@ When `.specify/extensions/memory-md/config.yml` has `optimizer.enabled: true` an
 2. **Review Findings**: Ensure the export includes historical security context surfaced by the optimizer.
 3. If `flash-mem` is available, use its canonical memory tools and `prepare-context` flow. If it is not installed, use the MCP tools exposed by `spec-kit-memory-hub`; do not call `npx memory-hub` directly.
 
+## Flash-Mem Security Context Retrieval
+
+Before synthesizing the export:
+
+1. Search Flash-Mem for relevant security context before consolidating the input reports in depth.
+2. Prefer summary-first retrieval and collect `title`, `summary`, `category`, `tags`, `confidence`, and `related files` first.
+3. Prioritize retrieval in this order: project-specific security memories, recent findings, high-confidence findings, previously validated findings, repeated attack patterns, and organization-wide lessons learned.
+4. Retrieve full memory content only when summaries are insufficient, a finding appears highly relevant, or detailed remediation history is required.
+5. Check whether a candidate finding has previously occurred, been accepted as risk, been mitigated, or been classified as a false positive.
+6. Reuse validated security knowledge whenever possible and avoid generating duplicate findings when historical evidence already exists.
+7. Keep the workflow compatible with future Flash-Mem improvements and do not depend on storage internals, ranking details, or export behavior.
+
+## Flash-Mem Security Knowledge Capture
+
+After synthesis completes, store durable security knowledge back into Flash-Mem when the export identifies reusable lessons.
+
+Persist:
+
+- confirmed vulnerabilities
+- approved mitigations
+- accepted risks
+- recurring attack patterns
+- authentication decisions
+- authorization decisions
+- secure-by-design decisions
+- compliance-related decisions
+- remediation lessons learned
+- validated false-positive patterns
+
+Do not persist:
+
+- speculative findings
+- temporary reasoning
+- incomplete investigations
+- low-confidence assumptions
+- intermediate analysis artifacts
+
+## Security Memory Quality Rules
+
+Before storing security memory, verify that evidence exists, the finding is actionable, the memory will be reusable, the result is validated, and confidence is sufficient.
+Prefer fewer high-quality security memories over many low-value memories.
+
+## Security Retrieval Priorities
+
+When multiple memories exist, prioritize:
+
+1. Project-specific security memories
+2. Recent security findings
+3. High-confidence findings
+4. Previously validated findings
+5. Repeated attack patterns
+6. Organization-wide lessons learned
+
+Avoid retrieving redundant memories.
+
 ## Output Format
 
 Produce a structured Markdown report with the following mandatory sections. Use a professional, authoritative, and objective tone.
