@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.5.3
+
+- Bumped the extension version to `1.5.3`.
+- Updated release and installation references to the new tag.
+
 ## v1.5.2
 
 - Bumped the extension version to `1.5.2`.
